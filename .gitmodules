@@ -1,0 +1,3 @@
+[submodule "themes/hugo-material"]
+	path = themes/hugo-material
+	url = https://github.com/eternal-flame-AD/hugo-material-blog.git
