@@ -8,11 +8,17 @@ defaultContentLanguageInSubdir = true
     languageName = "English"
     title = "Yumechi"
     weight = 2
+    copyright = '''© Yumechi. All rights reserved.
+    Proudly built with [Hugo](https://gohugo.io/) & [hugo-material-blog](https://github.com/Xzya/hugo-material-blog). All opinions are solely my own.
+    '''
   [languages.ja]
     contentDir = "content/ja"
     languageName = "日本語"
     title = "ゆめち"
     weight = 1
+    copyright = '''©  Yumechi.
+    [Hugo](https://gohugo.io/) と [hugo-material-blog](https://github.com/Xzya/hugo-material-blog) で生成した。コンテンツは自分の考えだけです。
+    '''
 
 [markup]
   [markup.goldmark]
