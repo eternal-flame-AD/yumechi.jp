@@ -42,14 +42,6 @@
   force = false
   conditions = {Language = ["ja"]}
 
-# redirect english users to /en/
-[[redirects]]
-  from = "/"
-  to = "/en/"
-  status = 302
-  force = false
-  conditions = {Language = ["en"]}
-
 # default to /en/
 [[redirects]]
   from = "/"
