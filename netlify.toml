@@ -33,13 +33,6 @@
     # This feature may not be available on all plans.
     # Basic-Auth = "someuser:somepassword anotheruser:anotherpassword"
 
-# redirect english users to /en/
-[[redirects]]
-  from = "/"
-  to = "/en/"
-  status = 302
-  force = false
-  conditions = {Language = ["en"]}
 
 # redirect japanese users to /ja/
 [[redirects]]
@@ -47,7 +40,15 @@
   to = "/ja/"
   status = 302
   force = false
-  conditions = {Language = ["ja","ja-JP"]}
+  conditions = {Language = ["ja"]}
+
+# redirect english users to /en/
+[[redirects]]
+  from = "/"
+  to = "/en/"
+  status = 302
+  force = false
+  conditions = {Language = ["en"]}
 
 # default to /en/
 [[redirects]]
