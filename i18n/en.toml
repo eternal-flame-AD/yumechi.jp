@@ -4,5 +4,23 @@ other = "Links"
 [footer_header_devel]
 other = "Development"
 
+[footer_header_academic]
+other = "Academic"
+
+[footer_header_services]
+other = "Services"
+
+[footer_address]
+other = "Yumechi<br />23 Kunugibayasinosoto, Kamisu 66<br />Japan"
+
+[footer_item_fileshare]
+other = "File Share"
+
+[login_required]
+other = "login required"
+
+[login_open]
+other = "open access"
+
 [date_format]
 other = "1/2/2006"
