@@ -40,7 +40,7 @@
   from = "/"
   to = "/ja/"
   status = 302
-  force = false
+  force = true
   conditions = {Language = ["ja"]}
 
 # default to /en/
@@ -48,4 +48,4 @@
   from = "/"
   to = "/en/"
   status = 302
-  force = false
+  force = true
