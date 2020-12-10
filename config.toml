@@ -1,14 +1,14 @@
+baseURL = "https://yumechi.jp/"
 theme = "hugo-material"
 defaultContentLanguage = "en"
+defaultContentLanguageInSubdir = true
 [languages]
   [languages.en]
-    baseURL = "https://en.yumechi.jp/"
     contentDir = "content/en"
     languageName = "English"
     title = "Yumechi"
     weight = 2
   [languages.ja]
-    baseURL = "https://yumechi.jp/"
     contentDir = "content/ja"
     languageName = "日本語"
     title = "ゆめち"
