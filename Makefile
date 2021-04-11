@@ -6,6 +6,16 @@ else
 HUGO=.bin/hugo
 endif
 
+download-sub:
+	git submodule update --init
+
+build-sub: cyberchef-prod
+
+cyberchef-prod:
+	cd submodules/CyberChef
+	npm i && grunt prod
+	cp -r build/prod ../../static/CyberChef
+
 download-hugo:
 
 ifeq ($(OS),Windows_NT)
