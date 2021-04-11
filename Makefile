@@ -13,9 +13,8 @@ build-sub: cyberchef-prod
 
 cyberchef-prod:
 	npm install -g grunt-cli
-	cd submodules/CyberChef
-	npm i && grunt prod
-	cp -r build/prod ../../static/CyberChef
+	cd submodules/CyberChef && npm i && grunt prod
+	cp -r submodules/CyberChef/build/prod static/CyberChef
 
 download-hugo:
 
