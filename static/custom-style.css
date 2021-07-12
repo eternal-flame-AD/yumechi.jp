@@ -1,0 +1,19 @@
+.joke-text {
+    vertical-align: sub;
+    background-color: #000000;
+    color: #000000;
+    text-decoration: line-through;
+}
+
+.joke-text:hover {
+    background-color: #dcdcdc;
+}
+
+.adult {
+    color: red;
+    font-weight: bolder;
+}
+
+.adult > a {
+    text-decoration: underline;
+}

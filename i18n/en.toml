@@ -22,5 +22,11 @@ other = "login required"
 [login_open]
 other = "open access"
 
+[adult-notice]
+other = "This content is not for consumption from minors due to suicidal or other restricted content."
+
+[adult-notice-exit]
+other = "Go back"
+
 [date_format]
 other = "1/2/2006"

@@ -1,0 +1,34 @@
+{{ define "main" }}
+
+<article>
+
+  <div class="post">
+    {{ .Render "header" }}
+    <div id="socnet-share">
+      {{ partial "share-buttons" . }}
+    </div>
+    {{ if .Params.restrict }}
+    <div class="adult">{{ T "adult-notice" }} <a onclick="history.go(-1)">{{ T "adult-notice-exit" }}</a></div>
+    {{end}}
+
+    <div class="content">
+      {{ .Render "featured" }}
+      {{ .Content }}
+    </div>
+    <footer>
+      {{ .Render "stats" }}
+    </footer>
+  </div>
+  {{ if not ( eq .Params.comments false) }}
+  {{ .Render "comments" }}
+  {{ end }}
+</article>
+<div class="pagination">
+  {{ if .NextInSection }}
+  <a href="{{ .NextInSection.RelPermalink }}" class="button left"><span>{{ .NextInSection.Title }}</span></a>
+  {{ end }}
+  {{ if .PrevInSection }}
+  <a href="{{ .PrevInSection.RelPermalink }}" class="button right"><span>{{ .PrevInSection.Title }}</span></a>
+  {{ end }}
+</div>
+{{ end }}

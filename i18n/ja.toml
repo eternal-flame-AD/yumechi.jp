@@ -22,6 +22,11 @@ other = "登録が必要"
 [login_open]
 other = "公開"
 
+[adult-notice]
+other = "この記事は自傷行為又は他のアダルトコンテンツを含めている"
+
+[adult-notice-exit]
+other = "戻る"
 
 [date_format]
 other = "2006/1/2"
