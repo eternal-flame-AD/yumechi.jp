@@ -1,7 +1,6 @@
 ---
 title: "How to learn a language"
 date: 2021-07-12T08:01:32-05:00
-draft: true
 categories: ["Study", "Language Learning"]
 tags: ["Reflections"]
 ---
