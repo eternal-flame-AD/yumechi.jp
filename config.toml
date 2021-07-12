@@ -1,5 +1,6 @@
 baseURL = "https://yumechi.jp/"
 theme = "hugo-future-imperfect-slim"
+author = "Yumechi"
 defaultContentLanguage = "ja"
 defaultContentLanguageInSubdir = true
 
@@ -12,7 +13,7 @@ defaultContentLanguageInSubdir = true
     languageName = "English"
     title = "Yumechi"
     weight = 1
-    copyright = '''© Yumechi. All rights reserved.'''
+    copyright = '''© Yumechi.'''
     [languages.en.params]
         [languages.en.params.header]
           navbarTitle = "Yumechi"
@@ -21,10 +22,19 @@ defaultContentLanguageInSubdir = true
         header = "Yumechi"
         paragraph = '''
         Hi! This is Yumechi’s personal website.　(つω`*)ﾃﾍ
+        <ul>
+          <li>UT Austin<br /></li>
+          <li>Computational Biology, Japanese Learner</li>
+          <li>MTF (´；ω；｀) SRS 2022</li>
+          <li>Cybersecurity</li>
+          <li>Golang Lover</li>
+        </ul>
         '''
         [languages.en.params.sidebar]
         about = '''
+        Japanese version may be different in content to optimize suitability for readers. <br />
         All opinions are solely my own. <br />
+        E-mail inquiries are welcome! <br />
         Please do not copy any content out of this site. Posting links to my contents are permitted.
         '''
         [languages.en.menu]
@@ -53,14 +63,16 @@ defaultContentLanguageInSubdir = true
           <li>テキサス大学オースティン校　<br /></li>
           <li>計算生物科学 日本語 勉強中</li>
           <li>MTF (´；ω；｀)　手術<span class="joke-text">仮釈放</span>２０２２予定</li>
-          <li>サイバーセキュリティ　 バイト中</li>
+          <li>サイバーセキュリティバイト中</li>
           <li>Golang 大好き</li>
         </ul>
         '''
       [languages.ja.params.sidebar]
         about = '''
+        読者コミュニティを対応のために、英語版との記事の内容は違いがあります。<br />
         コンテンツは自分の考えだけです。　<br />
-        全ての内容は、無断転載しないでください。他のカイドからニングだけの場合はOKです。
+        電子メールで質問は歓迎します。　<br />
+        全ての内容は、無断転載しないでください。他のサイドからニングだけの場合はOKです。
         '''
       [languages.ja.menu]
         [[languages.ja.menu.main]]
@@ -72,6 +84,7 @@ defaultContentLanguageInSubdir = true
         
 [social]
   github = "eternal-flame-AD"
+  email = "inquiry@yumechi.jp"
 
 [markup]
   [markup.goldmark]
