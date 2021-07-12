@@ -44,6 +44,12 @@ defaultContentLanguageInSubdir = true
             pre = ""
             url = "/blog/"
             weight = 10
+          [[languages.en.menu.main]]
+            name = "RESOURCE"
+            identifier = "Resource"
+            pre = ""
+            url = "/resource/"
+            weight = 15
   
   [languages.ja]
     contentDir = "content/ja"
@@ -81,6 +87,12 @@ defaultContentLanguageInSubdir = true
           pre = ""
           url = "/blog/"
           weight = 10
+        [[languages.ja.menu.main]]
+          name = "共有"
+          identifier = "Resource"
+          pre = ""
+          url = "/resource/"
+          weight = 15
         
 [social]
   github = "eternal-flame-AD"
