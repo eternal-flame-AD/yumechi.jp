@@ -55,15 +55,15 @@ disqusShortName = "yumechi-kuni"
   [languages.ja]
     contentDir = "content/ja"
     languageName = "日本語"
-    title = "ゆめち"
+    title = "ゆめちの国"
     weight = 2
     copyright = '''©  Yumechi.'''
     [languages.ja.params]
       [languages.ja.params.header]
-        navbarTitle = "ゆめち"
+        navbarTitle = "ゆめちの国"
         languageMenu = true
       [languages.ja.params.intro]
-        header = "ゆめち"
+        header = "ゆめちの国"
         paragraph = '''
         ゆるちの（半分）匿名ブログ　(つω`*)ﾃﾍ
         <ul>
