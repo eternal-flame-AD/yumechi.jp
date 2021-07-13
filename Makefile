@@ -6,6 +6,9 @@ else
 HUGO=.bin/hugo
 endif
 
+download-static:
+	curl -fsSL https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js  > static/js/mathjax.js
+
 download-sub:
 	git submodule update --init
 
