@@ -49,3 +49,14 @@
   to = "/en/"
   status = 302
   force = true
+
+[[redirects]]
+  from = "/en/*"
+  to = "/en/404.html"
+  status = 404
+
+[[redirects]]
+  from = "/ja/*"
+  to = "/ja/404.html"
+  statis = 404
+
