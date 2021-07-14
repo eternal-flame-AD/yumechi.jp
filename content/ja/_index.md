@@ -1,0 +1,4 @@
+---
+cascade:
+    isCJKLanguage: true
+---
