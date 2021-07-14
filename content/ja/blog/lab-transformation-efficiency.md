@@ -3,6 +3,10 @@ title: "形質転換効率(Transformation Efficiency)"
 date: 2021-07-12T08:01:32-05:00
 categories: ["学業", "実験室"]
 tags: ["大学","生物科学","微生物学" ]
+images:
+- src: /img/20210707-puc19-te-plate.jpg
+  alt: BL21(DE3) 形質転換効率
+  stretch: "stretchH"
 ---
 
 先週月曜日は先生注文したの<span class="joke-text">誰よりも大切な</span>コンピテントセルが到着した。祝日だから実験室は誰もいないですセルが大変な全部溶けました！
