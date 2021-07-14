@@ -128,7 +128,7 @@ disqusShortName = "yumechi-kuni"
   hideEmptyStats        = false
 
   [params.meta]
-    description         = "Yumechi　Blog - ゆめちのくに"
+    description         = "ゆめちのくに： 生物科学　サイバーセキュリティ　トランスジェンダー | Yumechi　Blog: Biology Cybersecurity Transgender"
     author              = "Yumechi"
     favicon             = false
     svg                 = true
