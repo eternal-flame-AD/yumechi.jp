@@ -12,13 +12,6 @@ download-static:
 download-sub:
 	git submodule update --init
 
-build-sub: cyberchef-prod
-
-cyberchef-prod:
-	npm install -g grunt-cli
-	cd submodules/CyberChef && npm i && grunt prod
-	cp -r submodules/CyberChef/build/prod static/CyberChef
-
 download-hugo:
 
 ifeq ($(OS),Windows_NT)

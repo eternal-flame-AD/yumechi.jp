@@ -1,6 +1,3 @@
-[submodule "submodules/CyberChef"]
-	path = submodules/CyberChef
-	url = https://github.com/gchq/CyberChef
 [submodule "themes/hugo-future-imperfect-slim"]
 	path = themes/hugo-future-imperfect-slim
 	url = https://github.com/pacollins/hugo-future-imperfect-slim

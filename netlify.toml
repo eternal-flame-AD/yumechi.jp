@@ -6,7 +6,7 @@
   publish = "public/"
 
   # Default build command.
-  command = "make download-hugo && make build-sub && make build"
+  command = "make download-hugo && make build"
 
   # Directory with the serverless functions, including background functions,
   # to deploy to AWS. This is relative to the base directory if one has been set, 
