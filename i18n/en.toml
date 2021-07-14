@@ -25,6 +25,9 @@ other = "open access"
 [adult-notice]
 other = "This content is not for consumption from minors due to suicidal or other restricted content."
 
+[sensitive-img-show]
+other = "Show Image"
+
 [adult-notice-exit]
 other = "Go back"
 

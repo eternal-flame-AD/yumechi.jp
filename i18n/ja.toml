@@ -25,6 +25,9 @@ other = "公開"
 [adult-notice]
 other = "この記事は自傷行為又は他のアダルトコンテンツを含めている"
 
+[sensitive-img-show]
+other = "表示する"
+
 [adult-notice-exit]
 other = "戻る"
 

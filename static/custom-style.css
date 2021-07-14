@@ -65,3 +65,45 @@ div.speech-bubble-container {
 p.speech-bubble.bg-blue::before {
     border-bottom-color: lightblue;
 }
+
+div.sensitive-img {
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    color: white;
+}
+
+div.sensitive-img-unblur {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    border-radius: 5px;
+    border: solid;
+    padding: 1rem;
+}
+
+div.sensitive-img-unblur:hover {
+    background-color: #9c9c9c;
+    -webkit-transition: background-color 150ms linear;
+    -ms-transition: background-color 150ms linear;
+    transition: background-color 150ms linear;
+}
+
+div.sensitive-img img {
+    margin: -10px -20px -20px -10px;
+    filter: blur(10px);
+    -webkit-filter: blur(10px);
+    -moz-filter: blur(10px);
+    -o-filter: blur(10px);
+    -ms-filter: blur(10px);
+}
+
+div.sensitive-img.acknowledged img {
+    filter: none;
+}
+
+div.sensitive-img.acknowledged div.sensitive-img-unblur {
+    display: none;
+}
