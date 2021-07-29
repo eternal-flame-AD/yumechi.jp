@@ -1,6 +1,7 @@
 .DEFAULT_GOAL := dev
 
 HUGO=.bin/hugo
+HUGO_VERSION=0.86.0
 
 download-static:
 	curl -fsSL https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js  > static/js/mathjax.js
@@ -8,17 +9,20 @@ download-static:
 download-sub:
 	git submodule update --init
 
-download-hugo:
-	wget -O- https://github.com/gohugoio/hugo/releases/download/v0.85.0/hugo_extended_0.85.0_Linux-64bit.tar.gz \
-		| tar xzf - hugo && mv hugo .bin/
+.bin/hugo:
+	($(value HUGO) version | grep v$(value HUGO_VERSION)) || \
+	(wget -O- https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_Linux-64bit.tar.gz \
+		| tar xzf - hugo && mv hugo .bin/)
 
-dev:
+download: download-static download-sub .bin/hugo
+
+dev: download
 	$(value HUGO) server -DF
 
-build-dev:
+build-dev: download
 	$(value HUGO) -DF
 
-build:
+build: download
 	$(value HUGO)
 
-.PHONY: dev build-dev build download-sub download-hugo download-static
+.PHONY: dev build-dev build download-sub download-static download .bin/hugo
