@@ -33,3 +33,9 @@ other = "戻る"
 
 [date_format]
 other = "2006/1/2"
+
+[tategumi-switch-tategumi]
+other = "縦組みにする"
+
+[tategumi-switch-yokogumi]
+other = "横組みにする"
