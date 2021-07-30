@@ -74,11 +74,11 @@ func handler(request events.APIGatewayProxyRequest) (*events.APIGatewayProxyResp
 	case "POST":
 		if res := getRequestHeader("content-type", request); len(res) != 1 {
 			return nil, fmt.Errorf("unexpected number of content type headers")
-		} else if res[0] != "application/x-www-form-urlencoded" {
+		} else if !strings.HasPrefix(res[0], "application/json") {
 			return nil, fmt.Errorf("content type %s is not supported", res[0])
 		}
-		values, err := url.ParseQuery(request.Body)
-		if err != nil {
+		var values comment.Form
+		if err := json.Unmarshal([]byte(request.Body), &values); err != nil {
 			return nil, err
 		}
 		_, origin, _ := getRequestOrigin(request)

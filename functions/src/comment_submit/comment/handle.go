@@ -7,7 +7,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"net/url"
 	"strconv"
 	"time"
 
@@ -19,6 +18,20 @@ type FormResponse struct {
 	PullRequestRef string
 }
 
+type Form struct {
+	Fields struct {
+		ReplyThread string `json:"replyThread"`
+		ReplyID     string `json:"replyID"`
+		ReplyName   string `json:"replyName"`
+		Name        string `json:"name"`
+		Website     string `json:"website"`
+		Email       string `json:"email"`
+		Body        string `json:"body"`
+	} `json:"fields"`
+	Options struct {
+		EntryID string `json:"entryId"`
+	} `json:"options"`
+}
 type Comment struct {
 	ID          string    `json:"_id"`
 	EntryID     string    `json:"entryId"`
@@ -112,13 +125,13 @@ func validateNewComment(comment *Comment, existingComments []Comment) error {
 	return nil
 }
 
-func HandleForm(form url.Values, origin string) (*FormResponse, bool, error) {
+func HandleForm(form Form, origin string) (*FormResponse, bool, error) {
 	postToBranch := "dev"
 	if origin == "yumechi.jp" || origin == "yumechi.jp:443" {
 		postToBranch = "main"
 	}
 
-	entryId := form.Get("options[entryId")
+	entryId := form.Options.EntryID
 	if entryId == "" {
 		return nil, true, fmt.Errorf("missing entry id")
 	}
@@ -158,14 +171,14 @@ func HandleForm(form url.Values, origin string) (*FormResponse, bool, error) {
 	newComment := Comment{
 		ID:          strconv.FormatInt(time.Now().UnixNano(), 16),
 		EntryID:     entryId,
-		Name:        form.Get("fields[name]"),
-		ReplyThread: form.Get("fields[replyThread]"),
-		ReplyID:     form.Get("fields[replyID]"),
-		ReplyName:   form.Get("fields[replyname]"),
-		Website:     form.Get("fields[website]"),
-		Email:       form.Get("fields[email]"),
+		Name:        form.Fields.Name,
+		ReplyThread: form.Fields.ReplyThread,
+		ReplyID:     form.Fields.ReplyID,
+		ReplyName:   form.Fields.ReplyName,
+		Website:     form.Fields.Website,
+		Email:       form.Fields.Email,
 		Date:        time.Now(),
-		Body:        form.Get("fields[body]"),
+		Body:        form.Fields.Body,
 	}
 	if err := validateNewComment(&newComment, existingComments); err != nil {
 		return nil, true, err
