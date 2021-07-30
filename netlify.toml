@@ -6,7 +6,7 @@
   publish = "public/"
 
   # Default build command.
-  command = "make build"
+  command = "make .bin/gimme && eval $(.bin/gimme stable) && make build"
 
   # Directory with the serverless functions, including background functions,
   # to deploy to AWS. This is relative to the base directory if one has been set, 

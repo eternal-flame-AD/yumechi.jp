@@ -3,7 +3,7 @@ theme = "hugo-future-imperfect-slim"
 author = "Yumechi"
 defaultContentLanguage = "ja"
 defaultContentLanguageInSubdir = true
-disqusShortName = "yumechi-kuni"
+# disqusShortName = "yumechi-kuni"
 
 [permalinks]
   blog = "/:sections/:year/:title/"
@@ -169,8 +169,8 @@ disqusShortName = "yumechi-kuni"
     theme               = "github-light"
 
   [params.staticman]
-    enabled             = false
-    api                 = ""  # No Trailing Slash
+    enabled             = true
+    api                 = "yumechi.jp/.netlify/functions/comment_submit?api="  # No Trailing Slash
     gitProvider         = ""
     username            = ""
     repo                = ""
