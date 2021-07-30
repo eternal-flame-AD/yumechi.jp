@@ -48,12 +48,12 @@ type Comment struct {
 func EnsurePRBranch(base string, entryId string, prID *int64) (string, error) {
 	branchName := fmt.Sprintf("comment_%s_%s", base, entryId)
 
-	_, _, err := githubClient.Git.GetRef(context.Background(), owner, repo, "ref/heads/"+branchName)
+	_, _, err := githubClient.Git.GetRef(context.Background(), owner, repo, "heads/"+branchName)
 	if err == nil {
 		return branchName, nil
 	}
 
-	ref, _, err := githubClient.Git.GetRef(context.Background(), owner, repo, "ref/heads/"+base)
+	ref, _, err := githubClient.Git.GetRef(context.Background(), owner, repo, "heads/"+base)
 	if err != nil {
 		return "", err
 	}
