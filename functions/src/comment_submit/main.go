@@ -45,6 +45,8 @@ func isAllowedOrigin(request events.APIGatewayProxyRequest) error {
 			"yumechi.jp:443",
 			"dev.yumechi.jp",
 			"dev.yumechi.jp:443",
+			"dev--youthful-pare-0d9fb4.netlify.app",
+			"dev--youthful-pare-0d9fb4.netlify.app:443",
 		} {
 			if host == allowedHost {
 				return nil
