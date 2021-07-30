@@ -14,8 +14,12 @@ functions/_deploy/comment_submit : functions/src/comment_submit functions/src/co
 
 functions: $(FUNCTIONS)
 
-download-static:
-	
+.bin/gimme: 
+	wget -O.bin/gimme https://raw.githubusercontent.com/travis-ci/gimme/master/gimme
+	chmod +x .bin/gimme
+
+download-static: .bin/gimme
+
 
 download-sub:
 	git submodule update --init
