@@ -3,13 +3,16 @@
 HUGO=.bin/hugo
 HUGO_VERSION=0.86.0
 
-FUNCTION_SRC=functions/src/hello
-FUNCTION_BIN=functions/_deploy/hello
+FUNCTIONS := functions/_deploy/hello functions/_deploy/comment_submit
 
-$(FUNCTION_BIN) : $(FUNCTION_SRC)
-	go build -o $@ github.com/eternal-flame-ad/yumechi.jp/$^
+functions/_deploy/hello : functions/src/hello functions/src/hello/**
+	go build -o $@ github.com/eternal-flame-ad/yumechi.jp/$(firstword $^)
 
-functions: $(FUNCTION_BIN)
+functions/_deploy/comment_submit : functions/src/comment_submit functions/src/comment_submit/**
+	go generate ./...
+	go build -o $@ github.com/eternal-flame-ad/yumechi.jp/$(firstword $^)
+
+functions: $(FUNCTIONS)
 
 download-static:
 	
@@ -35,6 +38,7 @@ build: download functions
 	$(value HUGO) --minify
 
 clean:
+	rm -rf functions/_deploy/** || true
 	rm -rf resources/_gen/** || true
 	rm -rf public/** || true
 
