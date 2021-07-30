@@ -39,7 +39,12 @@ build-dev: download
 
 build: download functions
 	rm -rf public/** || true
-	$(value HUGO) --minify
+	@if [[ "${URL}" = "" ]]; then \
+		cp config.toml _build_config.toml; \
+	else \
+		sed 's/yumechi.jp/$(URL:https://%=%)/g' config.toml > _build_config.toml; \
+	fi
+	$(value HUGO) --config _build_config.toml --minify
 
 clean:
 	rm -rf functions/_deploy/** || true
