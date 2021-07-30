@@ -8,6 +8,7 @@ import (
 	"fmt"
 	"io"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/google/go-github/v37/github"
@@ -53,46 +54,50 @@ type Comment struct {
 func EnsurePRBranch(base string, entryId string, prID *int64) (string, error) {
 	branchName := fmt.Sprintf("cmt_%s_%s", base, entryId)
 
+	// create branch if not exist
 	_, _, err := githubClient.Git.GetRef(context.Background(), owner, repo, "heads/"+branchName)
-	if err == nil {
-		return branchName, nil
-	}
-
-	ref, _, err := githubClient.Git.GetRef(context.Background(), owner, repo, "heads/"+base)
 	if err != nil {
-		return "", err
-	}
+		ref, _, err := githubClient.Git.GetRef(context.Background(), owner, repo, "heads/"+base)
+		if err != nil {
+			return "", err
+		}
 
-	_, _, err = githubClient.Git.CreateRef(context.Background(), owner, repo, &github.Reference{
-		Ref: refStr("heads/" + branchName),
-		Object: &github.GitObject{
-			SHA: refStr(*ref.Object.SHA),
-		},
-	})
-	if err != nil {
-		return "", err
+		_, _, err = githubClient.Git.CreateRef(context.Background(), owner, repo, &github.Reference{
+			Ref: refStr("heads/" + branchName),
+			Object: &github.GitObject{
+				SHA: refStr(*ref.Object.SHA),
+			},
+		})
+		if err != nil {
+			return "", err
+		}
 	}
 
 	if prID != nil {
-		pr, _, err := githubClient.PullRequests.List(context.Background(), owner, repo, &github.PullRequestListOptions{
+		prList, _, err := githubClient.PullRequests.List(context.Background(), owner, repo, &github.PullRequestListOptions{
 			Base: base,
 			Head: fmt.Sprintf("%s:%s", owner, branchName),
 		})
 		if err != nil {
 			return branchName, err
 		}
-		if len(pr) == 0 {
-			pr, _, err := githubClient.PullRequests.Create(context.Background(), owner, repo, &github.NewPullRequest{
-				Title: refStr(fmt.Sprintf("[%s] Comment on post %s", base, entryId)),
-				Base:  refStr(base),
-				Head:  &branchName,
-				Body:  refStr("This is an auto generated PR for comments."),
-			})
-			if err != nil {
-				return branchName, err
+		for _, pr := range prList {
+			if strings.Contains(*pr.Title, fmt.Sprintf("post %s", entryId)) && strings.Contains(*pr.Title, fmt.Sprintf("[%s]", base)) {
+				*prID = *pr.ID
+				return branchName, nil
 			}
-			*prID = *pr.ID
 		}
+
+		pr, _, err := githubClient.PullRequests.Create(context.Background(), owner, repo, &github.NewPullRequest{
+			Title: refStr(fmt.Sprintf("[%s] Comment on post %s", base, entryId)),
+			Base:  refStr(base),
+			Head:  &branchName,
+			Body:  refStr("This is an auto generated PR for comments."),
+		})
+		if err != nil {
+			return branchName, err
+		}
+		*prID = *pr.ID
 	}
 	return branchName, nil
 }
