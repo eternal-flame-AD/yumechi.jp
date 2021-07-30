@@ -1,6 +1,6 @@
 $('.dropdown-trigger').dropdown();
 
-$(document).ready(function() {
+$(function() {
     $('.sidenav').sidenav();
 });
 
