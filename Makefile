@@ -39,7 +39,7 @@ build-dev: download
 
 build: download functions
 	rm -rf public/** || true
-	@if [[ "${URL}" = "" ]]; then \
+	@if [ "${URL}" = "" ]; then \
 		cp config.toml _build_config.toml; \
 	else \
 		sed 's/yumechi.jp/$(URL:https://%=%)/g' config.toml > _build_config.toml; \
