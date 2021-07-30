@@ -14,11 +14,6 @@ import (
 )
 
 func getRequestHeader(key string, request events.APIGatewayProxyRequest) (res []string) {
-	for reqHdrKey, val := range request.Headers {
-		if strings.ToLower(reqHdrKey) == strings.ToLower(key) {
-			res = append(res, val)
-		}
-	}
 	for reqHdrKey, val := range request.MultiValueHeaders {
 		if strings.ToLower(reqHdrKey) == strings.ToLower(key) {
 			res = append(res, val...)
