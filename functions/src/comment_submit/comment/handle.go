@@ -82,7 +82,7 @@ func EnsurePRBranch(base string, entryId string, prID *int64) (string, error) {
 			return branchName, err
 		}
 		for _, pr := range prList {
-			if strings.Contains(*pr.Title, fmt.Sprintf("post %s", entryId)) && strings.Contains(*pr.Title, fmt.Sprintf("[%s]", base)) {
+			if pr.Title != nil && strings.Contains(*pr.Title, fmt.Sprintf("post %s", entryId)) && strings.Contains(*pr.Title, fmt.Sprintf("[%s]", base)) {
 				*prID = *pr.ID
 				return branchName, nil
 			}
