@@ -35,8 +35,8 @@ disqusShortName = "yumechi-kuni"
         about = '''
         Japanese version may be different in content to optimize suitability for readers. <br />
         All opinions are solely my own. <br />
-        E-mail inquiries are welcome! <br />
-        Please do not copy any content out of this site. Posting links to my contents are permitted.
+        E-mail inquiries are welcome! <br /><br />
+        This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International License</a>.
         '''
         [languages.en.menu]
           [[languages.en.menu.main]]
@@ -78,8 +78,8 @@ disqusShortName = "yumechi-kuni"
         about = '''
         読者コミュニティを対応のために、英語版との記事の内容は違いがあります。<br />
         コンテンツは自分の考えだけです。　<br />
-        電子メールで質問は歓迎します。　<br />
-        全ての内容は、無断転載しないでください。他のサイドからニングだけの場合はOKです。
+        電子メールで質問は歓迎します。　<br /><br />
+        この作品は <a rel="license" href="http://creativecommons.org/licenses/by-nc-nd/4.0/">クリエイティブ・コモンズ 表示 - 非営利 - 改変禁止 4.0 国際 ライセンス</a>の下に提供されています。
         '''
       [languages.ja.menu]
         [[languages.ja.menu.main]]
