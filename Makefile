@@ -3,6 +3,12 @@
 HUGO=.bin/hugo
 HUGO_VERSION=0.86.0
 
+FUNCTION_SRC=functions/src/hello
+FUNCTION_BIN=functions/_deploy/hello
+
+$(FUNCTION_BIN) : $(FUNCTION_SRC)
+	go build -o $@ github.com/eternal-flame-ad/yumechi.jp/$^
+
 download-static:
 	
 
@@ -22,7 +28,7 @@ dev: download
 build-dev: download
 	$(value HUGO) -DF
 
-build: download
+build: download $(FUNCTION_BIN)
 	rm -rf public/** || true
 	$(value HUGO) --minify
 
