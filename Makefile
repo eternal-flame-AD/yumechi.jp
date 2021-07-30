@@ -9,6 +9,8 @@ FUNCTION_BIN=functions/_deploy/hello
 $(FUNCTION_BIN) : $(FUNCTION_SRC)
 	go build -o $@ github.com/eternal-flame-ad/yumechi.jp/$^
 
+functions: $(FUNCTION_BIN)
+
 download-static:
 	
 
@@ -28,7 +30,7 @@ dev: download
 build-dev: download
 	$(value HUGO) -DF
 
-build: download $(FUNCTION_BIN)
+build: download functions
 	rm -rf public/** || true
 	$(value HUGO) --minify
 
@@ -36,4 +38,4 @@ clean:
 	rm -rf resources/_gen/** || true
 	rm -rf public/** || true
 
-.PHONY: dev build-dev build download-sub download-static download .bin/hugo clean
+.PHONY: dev build-dev build download-sub download-static download .bin/hugo clean functions
