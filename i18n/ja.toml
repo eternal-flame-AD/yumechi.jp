@@ -39,3 +39,6 @@ other = "縦組みにする"
 
 [tategumi-switch-yokogumi]
 other = "横組みにする"
+
+[say_something]
+  other = "ゆめちとお話し"
