@@ -32,24 +32,21 @@
 {{ range (readDir "assets/css/vendor") }}
   {{ if (not .IsDir ) }}
     {{ $styleSheet :=  (printf "css/vendor/%s" .Name) }}
-
     {{ if (or (eq (path.Ext .Name) ".sass") (eq (path.Ext .Name) ".scss")) }}
-      {{ $styleSheet = $styleSheet | resources.Get | resources.ToCSS }}
+      {{ $styleSheets = $styleSheets | append ($styleSheet | resources.Get | resources.ToCSS) }}
     {{ else if (eq (path.Ext .Name) ".css") }}
-      {{ $styleSheet = $styleSheet | resources.Get }}
+      {{ $styleSheets = $styleSheets | append ($styleSheet | resources.Get) }}
     {{ end }}
-    {{ $styleSheets = $styleSheets | append ($styleSheet | resources.PostCSS)}}
   {{ end }}
 {{ end }}
 {{ range (readDir "assets/css") }}
   {{ if (not .IsDir ) }}
     {{ $styleSheet :=  (printf "css/%s" .Name) }}
-    {{ if (eq (path.Ext .Name) ".sass") }}
-      {{ $styleSheet = $styleSheet | resources.Get | resources.ToCSS | resources.Minify }}
+    {{ if (or (eq (path.Ext .Name) ".sass") (eq (path.Ext .Name) ".scss")) }}
+      {{ $styleSheets = $styleSheets | append ($styleSheet | resources.Get | resources.ToCSS | resources.Minify) }}
     {{ else if (eq (path.Ext .Name) ".css") }}
-      {{ $styleSheet = $styleSheet | resources.Get | resources.Minify }}
+      {{ $styleSheets = $styleSheets | append ($styleSheet | resources.Get | resources.Minify) }}
     {{ end }}
-    {{ $styleSheets = $styleSheets | append ($styleSheet | resources.PostCSS)}}
   {{ end }}
 {{ end }}
 {{ $pageCss := (resources.Concat "css/site_bundle.css" $styleSheets) | resources.Minify | resources.Fingerprint "sha512" }}
