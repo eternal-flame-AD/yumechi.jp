@@ -4,7 +4,7 @@ HUGO=.bin/hugo
 HUGO_VERSION=0.86.0
 
 download-static:
-	curl -fsSL https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js  > static/js/mathjax.js
+	
 
 download-sub:
 	git submodule update --init
@@ -23,6 +23,11 @@ build-dev: download
 	$(value HUGO) -DF
 
 build: download
-	$(value HUGO)
+	rm -rf public/** || true
+	$(value HUGO) --minify
 
-.PHONY: dev build-dev build download-sub download-static download .bin/hugo
+clean:
+	rm -rf resources/_gen/** || true
+	rm -rf public/** || true
+
+.PHONY: dev build-dev build download-sub download-static download .bin/hugo clean

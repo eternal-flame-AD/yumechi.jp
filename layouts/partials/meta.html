@@ -28,3 +28,43 @@
 <meta name="msapplication-TileColor" content="{{ .Site.Params.meta.msColor }}">
 <meta name="theme-color" content="{{ .Site.Params.meta.iOSColor }}">
 {{ end }}
+{{ $styleSheets := (slice) }}
+{{ range (readDir "assets/css/vendor") }}
+  {{ if (not .IsDir ) }}
+    {{ $styleSheet :=  (printf "css/vendor/%s" .Name) }}
+
+    {{ if (or (eq (path.Ext .Name) ".sass") (eq (path.Ext .Name) ".scss")) }}
+      {{ $styleSheet = $styleSheet | resources.Get | resources.ToCSS }}
+    {{ else if (eq (path.Ext .Name) ".css") }}
+      {{ $styleSheet = $styleSheet | resources.Get }}
+    {{ end }}
+    {{ $styleSheets = $styleSheets | append ($styleSheet | resources.PostCSS)}}
+  {{ end }}
+{{ end }}
+{{ range (readDir "assets/css") }}
+  {{ if (not .IsDir ) }}
+    {{ $styleSheet :=  (printf "css/%s" .Name) }}
+    {{ if (eq (path.Ext .Name) ".sass") }}
+      {{ $styleSheet = $styleSheet | resources.Get | resources.ToCSS | resources.Minify }}
+    {{ else if (eq (path.Ext .Name) ".css") }}
+      {{ $styleSheet = $styleSheet | resources.Get | resources.Minify }}
+    {{ end }}
+    {{ $styleSheets = $styleSheets | append ($styleSheet | resources.PostCSS)}}
+  {{ end }}
+{{ end }}
+{{ $pageCss := (resources.Concat "css/site_bundle.css" $styleSheets) | resources.Minify | resources.Fingerprint "sha512" }}
+<link rel="stylesheet" href={{ $pageCss.Permalink }} integrity={{$pageCss.Data.Integrity}}>
+
+{{ $siteScripts := (slice)}}
+{{ range (readDir "assets/js/vendor") }}
+  {{ if (eq (path.Ext .Name) ".js") }}
+    {{ $siteScripts = $siteScripts | append ( .Name | printf "js/vendor/%s" | resources.Get )}}
+  {{ end }}
+{{ end }}
+{{ range (readDir "assets/js") }}
+  {{ if (eq (path.Ext .Name) ".js") }}
+    {{ $siteScripts = $siteScripts | append ( .Name | printf "js/%s" | resources.Get | resources.Minify )}}
+  {{ end }}
+{{ end }}
+{{ $pageJS := (resources.Concat "js/site_bundle.js" $siteScripts | resources.Fingerprint "sha512") }}
+<script src={{ $pageJS.Permalink}} integrity={{$pageJS.Data.Integrity}}></script>

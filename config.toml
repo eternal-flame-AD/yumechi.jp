@@ -112,11 +112,8 @@ disqusShortName = "yumechi-kuni"
 
 [params]
   enableCDN             = false
-  cssFiles              = ["default", "/custom-style.css"]
-  jsFiles               = ["default", 
-  "/js/jquery-3.5.1.min.js",
-   "/js/materialize.min.js", 
-   "/js/script.js"]
+  cssFiles              = ["default"]
+  jsFiles               = ["default"]
   highlightjs           = true
   highlightjsTheme      = ""
   highlightjsLang       = []
