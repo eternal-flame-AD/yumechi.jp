@@ -14,8 +14,13 @@ import (
 )
 
 type FormResponse struct {
-	Comment        *Comment
-	PullRequestRef string
+	Comment *Comment
+	Links   FormResponseLinks
+}
+
+type FormResponseLinks struct {
+	PullRequest string
+	CommentFile string
 }
 
 type Form struct {
@@ -78,7 +83,7 @@ func EnsurePRBranch(base string, entryId string, prID *int64) (string, error) {
 		}
 		if len(pr) == 0 {
 			pr, _, err := githubClient.PullRequests.Create(context.Background(), owner, repo, &github.NewPullRequest{
-				Title: refStr(fmt.Sprintf("Comment on %s", entryId)),
+				Title: refStr(fmt.Sprintf("[%s] Comment on post %s", base, entryId)),
 				Base:  refStr(base),
 				Head:  &branchName,
 				Body:  refStr("This is an auto generated PR for comments."),
@@ -141,8 +146,7 @@ func HandleForm(form Form, origin string) (*FormResponse, bool, error) {
 		return nil, true, fmt.Errorf("missing entry id")
 	}
 
-	var prId int64
-	prBranch, err := EnsurePRBranch(postToBranch, entryId, &prId)
+	prBranch, err := EnsurePRBranch(postToBranch, entryId, nil)
 	if err != nil {
 		return nil, false, err
 	}
@@ -207,8 +211,14 @@ func HandleForm(form Form, origin string) (*FormResponse, bool, error) {
 		return nil, false, err
 	}
 
+	var prId int64
+	_, err = EnsurePRBranch(postToBranch, entryId, &prId)
+	if err != nil {
+		return nil, false, err
+	}
+
 	return &FormResponse{
-		Comment:        &newComment,
-		PullRequestRef: *newContentResponse.HTMLURL,
+		Comment: &newComment,
+		Links:   FormResponseLinks{CommentFile: *newContentResponse.HTMLURL, PullRequest: fmt.Sprintf("https://github.com/%s/%s/%d", owner, repo, prId)},
 	}, false, nil
 }
