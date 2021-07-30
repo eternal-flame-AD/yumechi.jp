@@ -46,7 +46,7 @@ type Comment struct {
 }
 
 func EnsurePRBranch(base string, entryId string, prID *int64) (string, error) {
-	branchName := fmt.Sprintf("comment_%s_%s", base, entryId)
+	branchName := fmt.Sprintf("cmt_%s_%s", base, entryId)
 
 	_, _, err := githubClient.Git.GetRef(context.Background(), owner, repo, "heads/"+branchName)
 	if err == nil {
@@ -58,12 +58,11 @@ func EnsurePRBranch(base string, entryId string, prID *int64) (string, error) {
 		return "", err
 	}
 
-	obj := &github.GitObject{
-		SHA: refStr(*ref.Object.SHA),
-	}
 	_, _, err = githubClient.Git.CreateRef(context.Background(), owner, repo, &github.Reference{
-		Ref:    refStr("ref/heads/" + branchName),
-		Object: obj,
+		Ref: refStr("heads/" + branchName),
+		Object: &github.GitObject{
+			SHA: refStr(*ref.Object.SHA),
+		},
 	})
 	if err != nil {
 		return "", err
