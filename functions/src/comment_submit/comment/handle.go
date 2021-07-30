@@ -91,11 +91,14 @@ func EnsurePRBranch(base string, entryId string, prID *int64) (string, error) {
 
 		pr, _, err := githubClient.PullRequests.Create(context.Background(), owner, repo, &github.NewPullRequest{
 			Title: refStr(fmt.Sprintf("[%s] Comment on post %s", base, entryId)),
-			Base:  refStr(base),
+			Base:  &base,
 			Head:  &branchName,
 			Body:  refStr("This is an auto generated PR for comments."),
 		})
 		if err != nil {
+			if err, ok := (err.(*github.ErrorResponse)); ok {
+				return branchName, fmt.Errorf("failed generating pull request: %s", err.Message)
+			}
 			return branchName, err
 		}
 		*prID = *pr.ID
@@ -204,18 +207,16 @@ func HandleForm(form Form, origin string) (*FormResponse, bool, error) {
 		return nil, false, err
 	}
 
-	fileUpdFunc := githubClient.Repositories.CreateFile
 	newGhContent := &github.RepositoryContentFileOptions{
 		Message: refStr(fmt.Sprintf("New comment for %s", entryId)),
 		Content: newGhContentBytes,
 		Branch:  &prBranch,
 	}
 	if curFile != nil {
-		fileUpdFunc = githubClient.Repositories.UpdateFile
 		newGhContent.SHA = refStr(hex.EncodeToString(SHA1Bytes(curFileBytes)))
 	}
 
-	newContentResponse, _, err := fileUpdFunc(context.Background(), owner, repo, commentFile, newGhContent)
+	newContentResponse, _, err := githubClient.Repositories.CreateFile(context.Background(), owner, repo, commentFile, newGhContent)
 	if err != nil {
 		return nil, false, err
 	}
