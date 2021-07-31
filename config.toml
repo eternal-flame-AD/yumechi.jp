@@ -3,7 +3,7 @@ theme = "hugo-future-imperfect-slim"
 author = "Yumechi"
 defaultContentLanguage = "ja"
 defaultContentLanguageInSubdir = true
-# disqusShortName = "yumechi-kuni"
+disqusShortName = "yumechi-kuni"
 
 [permalinks]
   blog = "/:sections/:year/:title/"
