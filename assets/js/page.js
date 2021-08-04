@@ -1,5 +1,5 @@
 function toggleTategumi(selector) {
-    selector = selector || "div.content"
+    selector = selector || "div.post div.content"
     let existingClass = document.querySelector(selector).classList;
     if (existingClass.contains("tategumi")) {
         if (localStorage)
