@@ -69,7 +69,7 @@ disqusShortName = "yumechi-kuni"
         <ul>
           <li>テキサス大学オースティン校　<br /></li>
           <li>計算生物科学 日本語 勉強中</li>
-          <li>MTF (´；ω；｀)　手術<span class="joke-text">仮釈放</span>２０２２予定</li>
+          <li>MTF (´；ω；｀)　手術<span class="joke-text">仮釈放</span>予定　2022/01</li>
           <li>サイバーセキュリティバイト中</li>
           <li>Golang 大好き</li>
         </ul>
@@ -113,7 +113,7 @@ disqusShortName = "yumechi-kuni"
 [params]
   enableCDN             = false
   cssFiles              = ["default"]
-  jsFiles               = ["default"]
+  jsFiles               = []
   highlightjs           = true
   highlightjsTheme      = ""
   highlightjsLang       = []
