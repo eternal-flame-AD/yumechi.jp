@@ -1,0 +1,36 @@
+div.speech-bubble-container
+    height: 100%
+    display: flex
+    padding: 0 3%
+    line-height: 1.5
+    font-weight: 300
+    .tategumi &
+        padding: 3% 0
+
+p.speech-bubble
+    position: relative
+    max-width: 30em
+    padding: 1.125em 1.5em
+    font-size: 1.25em
+    border-radius: 1rem
+    box-shadow: 0 0.125rem 0.5rem rgba(0, 0, 0, .3), 0 0.0625rem 0.125rem rgba(0, 0, 0, .2)
+    .tategumi &
+        padding: 1.5em 1.125em
+
+p.speech-bubble::before
+    content: ''
+    position: absolute
+    width: 0
+    height: 0
+    bottom: 100%
+    left: 1.5em
+    border: .75rem solid transparent
+    border-top: none
+    filter: drop-shadow(0 -0.0625rem 0.0625rem rgba(0, 0, 0, .1))
+
+    &.bg-blue
+        border-bottom-color: lightblue
+
+    .tategumi &
+        left: 0
+        top: 1.5em
