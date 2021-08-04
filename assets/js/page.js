@@ -2,9 +2,13 @@ function toggleTategumi(selector) {
     selector = selector || "div.content"
     let existingClass = document.querySelector(selector).classList;
     if (existingClass.contains("tategumi")) {
+        if (localStorage)
+            localStorage.removeItem("content-tategumi");
         existingClass.remove("tategumi");
         return false;
     }
+    if (localStorage)
+        localStorage.setItem("content-tategumi", 1)
     existingClass.add("tategumi");
     return true;
 }
@@ -23,4 +27,10 @@ $(function() {
             el.parentElement.classList.add("acknowledged")
         }
     })
+
+    if (localStorage) {
+        if (localStorage.getItem("content-tategumi") == "1")
+            toggleTategumi()
+    }
+
 });
