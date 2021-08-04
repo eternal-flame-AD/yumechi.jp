@@ -1,0 +1,46 @@
+.box
+    padding: .8em 1%
+    margin: 1.5em 0px
+    border: 2px solid
+    border-radius: 5px
+
+    .tategumi &
+        margin: 0px 1.5em
+        padding: 1% .8em
+
+    .box-title
+        padding: .1em .5em
+        font-weight: bolder
+
+        .tategumi &
+            padding: .5em .1em
+
+        &::before
+            content: "−"
+
+    .box-body
+        padding: .3em 1.5em
+
+        .tategumi &
+            padding: 1.5em .3em
+
+.box.info
+    background-color: #7DB9DE
+
+    .box-title
+        &::before
+            content: "⇛"
+
+.box.warning
+    background-color: #FAD689
+
+    .box-title
+        &::before
+            content: "＊"
+
+.box.critical
+    background-color: #F75C2F
+
+    .box-title
+        &::before
+            content: "！"

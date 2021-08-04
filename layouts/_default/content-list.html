@@ -1,3 +1,4 @@
+{{ if not .Params.unlisted }}
 <article class="post">
   {{ .Render "header" }}
   <div class="content">
@@ -15,3 +16,4 @@
     {{ .Render "stats" }}
   </footer>
 </article>
+{{ end }}
