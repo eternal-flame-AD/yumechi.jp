@@ -25,6 +25,13 @@
         window.onerror = e =>
             document.querySelector("#errmsg").innerText = e.message || e
 
+        function encodeQueryParam(val) {
+            // https://stackoverflow.com/questions/597028/how-to-encode-a-query-string-so-that-it-is-the-value-of-another-query-string-in/30711201#30711201
+            return encodeURIComponent(val).
+            replace(/%26/gi, '&').
+            replace(/%3D/gi, '=').
+            replace(/%2B/gi, '+');
+        }
 
         function stripPrefix(url, prefix) {
             if (url.startsWith(prefix))
@@ -39,22 +46,22 @@
                 // GENERAL
                 case "ddg":
                 case "duckduckgo":
-                    window.location = "https://duckduckgo.com/?t=ffab&q=" + encodeURIComponent(keyword)
+                    window.location = "https://duckduckgo.com/?t=ffab&q=" + encodeQueryParam(keyword)
                     break
                 case "g":
                 case "google":
-                    window.location = "https://www.google.com/search?q=" + encodeURIComponent(keyword)
+                    window.location = "https://www.google.com/search?q=" + encodeQueryParam(keyword)
                     break
                 case "gimg":
                 case "gimage":
-                    window.location = "https://www.google.com/search?tbm=isch&q=" + encodeURIComponent(keyword)
+                    window.location = "https://www.google.com/search?tbm=isch&q=" + encodeQueryParam(keyword)
                     break
                 case "yt":
                 case "youtube":
-                    window.location = "https://www.youtube.com/results?search_query=" + encodeURIComponent(keyword)
+                    window.location = "https://www.youtube.com/results?search_query=" + encodeQueryParam(keyword)
                     break
                 case "mdn":
-                    window.location = "https://developer.mozilla.org/en-US/search?q=" + encodeURIComponent(keyword)
+                    window.location = "https://developer.mozilla.org/en-US/search?q=" + encodeQueryParam(keyword)
                     break
                     // JITEN
                 case "jisho":
@@ -73,11 +80,11 @@
                     break
                     // ACADEMICS
                 case "utlib":
-                    window.location = "https://search.lib.utexas.edu/discovery/search?vid=01UTAU_INST:SEARCH&tab=Everything&search_scope=MyInst_and_CI&offset=0&radios=resources&query=any,contains," + encodeURIComponent(keyword)
+                    window.location = "https://search.lib.utexas.edu/discovery/search?vid=01UTAU_INST:SEARCH&tab=Everything&search_scope=MyInst_and_CI&offset=0&radios=resources&query=any,contains," + encodeQueryParam(keyword)
                     break
                 case "gs":
                 case "gscolar":
-                    document.location = "https://scholar.google.com/scholar?q=" + encodeURIComponent(keyword)
+                    document.location = "https://scholar.google.com/scholar?q=" + encodeQueryParam(keyword)
                     break
                 case "pdbj":
                     if (keyword.match(/^[a-zA-Z0-9]{4}$/))
@@ -85,7 +92,7 @@
                     else if (keyword.match(/^[a-zA-Z]{3}$/))
                         window.location = "https://pdbj.org/chemie/summary/" + encodeURIComponent(keyword)
                     else
-                        window.location = "https://pdbj.org/search/pdb?query=" + encodeURIComponent(keyword)
+                        window.location = "https://pdbj.org/search/pdb?query=" + encodeQueryParam(keyword)
                     break
                 case "pdb":
                 case "rcsb":
@@ -94,7 +101,7 @@
                     else if (keyword.match(/^[a-zA-Z]{3}$/))
                         window.location = "https://www.rcsb.org/ligand/" + encodeURIComponent(keyword)
                     else
-                        window.location = "https://www.rcsb.org/search?request=" + encodeURIComponent(JSON.stringify({
+                        window.location = "https://www.rcsb.org/search?request=" + encodeQueryParam(JSON.stringify({
                             "query": {
                                 "type": "terminal",
                                 "label": "full_text",
