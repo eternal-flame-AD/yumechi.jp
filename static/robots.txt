@@ -1,0 +1,4 @@
+User-agent: *
+Disallow: */private/ # 私用ルート
+
+Sitemap: https://yumechi.jp/sitemap.xml
