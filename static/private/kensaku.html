@@ -119,18 +119,19 @@
                     break
 
                 default:
-                    throw new Error("unknown target " + target + ".")
+                    redirectToSearch("ddg", target + " " + keyword)
             }
         }
 
         function handleQuery(query) {
             query = query.replaceAll("　", " ")
             let queryWords = query.split(" ")
-            let target = "ddg"
-            if (queryWords.length > 0 && queryWords[0].startsWith("?")) {
-                target = stripPrefix(queryWords[0], "?")
+            let target = queryWords[0]
+            if (queryWords[0].startsWith("_")) {
+                target = "ddg"
+                queryWords[0] = queryWords[0].slice(1)
+            } else
                 queryWords = queryWords.slice(1)
-            }
             if (!redirectToSearch(target, queryWords.join(" ")))
                 document.querySelector("#search-input").value = query
         }
@@ -141,6 +142,7 @@
                 handleQuery(queryFromHash)
         }
         window.addEventListener('hashchange', queryFromURLHash)
+        queryFromURLHash()
 
 
         document.querySelector("#query-form").onsubmit = e => {
