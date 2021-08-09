@@ -33,6 +33,10 @@
             replace(/%2B/gi, '+');
         }
 
+        function decodeQueryParam(val) {
+            return decodeURIComponent(val.replace('&', "%26").replace('=', "%3D").replace('+', "%2B"));
+        }
+
         function stripPrefix(url, prefix) {
             if (url.startsWith(prefix))
                 return url.slice(prefix.length)
@@ -131,7 +135,7 @@
         }
 
         function handleQuery(query) {
-            query = query.replaceAll("　", " ")
+            query = query.replaceAll("　", " ").replace(/\s*$/, "").replace(/^\s*/, "")
             let queryWords = query.split(" ")
             let target = queryWords[0]
             if (queryWords[0].startsWith("_")) {
@@ -144,7 +148,7 @@
         }
 
         function queryFromURLHash() {
-            const queryFromHash = decodeURIComponent(stripPrefix(new URL(document.URL).hash, "#"))
+            const queryFromHash = decodeQueryParam(stripPrefix(new URL(document.URL).hash, "#"))
             if (queryFromHash)
                 handleQuery(queryFromHash)
         }
