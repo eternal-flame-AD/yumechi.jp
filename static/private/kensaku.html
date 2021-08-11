@@ -34,7 +34,7 @@
         }
 
         function decodeQueryParam(val) {
-            return decodeURIComponent(val.replace('&', "%26").replace('=', "%3D").replace('+', "%2B"));
+            return decodeURIComponent(val.replace(/&/g, "%26").replace(/=/g, "%3D").replace(/\+/g, " "));
         }
 
         function stripPrefix(url, prefix) {
@@ -130,7 +130,7 @@
                     break
 
                 default:
-                    redirectToSearch("ddg", target + " " + keyword)
+                    redirectToSearch("ddg", target + (keyword ? " " + keyword : ""))
             }
         }
 
