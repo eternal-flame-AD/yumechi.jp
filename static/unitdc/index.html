@@ -59,9 +59,13 @@
                     '</div>';
                 const textbox = ele.querySelector("div[role=textbox]");
                 const submit_btn = ele.querySelector("input[type=button]");
+                let submitted = false;
                 let submit = function() {
-                    submit_btn.style = "display: none;"
-                    window.unitdc_input(textbox.innerText);
+                    if (!submitted) {
+                        submit_btn.style = "display: none;"
+                        window.unitdc_input(textbox.innerText);
+                        submitted = true;
+                    }
                 }
                 textbox.onkeypress = function(e) {
                     if (e.keyCode == 13 && e.shiftKey) {
