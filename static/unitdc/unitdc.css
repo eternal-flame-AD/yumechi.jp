@@ -1,0 +1,33 @@
+.unitdc-io {
+    margin: .5em .25em .5em;
+    min-height: 1em;
+    font-size: 20;
+    padding: .25rem .25rem .5rem;
+}
+
+.input {
+    background-color: #ececec;
+}
+
+.output {
+    background-color: lightgreen;
+}
+
+.error {
+    background-color: lightpink;
+}
+
+.input div[contenteditable] {
+    display: block;
+    overflow: hidden;
+    resize: vertical;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    outline: none;
+    width: 100%;
+    padding-left: 2em;
+}
+
+.input input[type=button] {
+    width: 100%;
+}

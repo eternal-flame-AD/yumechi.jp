@@ -1,0 +1,106 @@
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>UnitDC</title>
+    <link rel="stylesheet" href="unitdc.css" />
+    <script src="wasm_exec.js"></script>
+    <script>
+        const go = new Go();
+        WebAssembly.instantiateStreaming(fetch("unitdc.wasm"), go.importObject).then((result) => {
+            go.run(result.instance);
+        });
+    </script>
+</head>
+
+<body>
+    <h1>
+        UnitDC
+    </h1>
+    <div id="unitdc-template" style="display: none;">
+        <div class="unitdc-io input">
+            <label class="prompt">In[0]: </label>
+            <div role="textbox" contenteditable>
+            </div>
+            <input type="button" value="submit">
+        </div>
+
+        <div class="unitdc-io error">
+            <label class="prompt">Error: </label>Example Error.
+        </div>
+
+        <div class="unitdc-io output">
+            <label class="prompt">Out[0]: </label>
+            <div style="padding-left: 2em;">
+                [0]: 1.00000<br> [1]: 2.00000<br>
+            </div>
+        </div>
+    </div>
+    <div id="unitdc-dialog">
+
+    </div>
+
+    <script>
+        let dialog = document.getElementById("unitdc-dialog");
+        window.unitdc_init = function(input_callback) {
+            window.unitdc_input = input_callback;
+
+            let input_counter = 0;
+            let output_counter = 0;
+            let new_input = function() {
+                let ele = document.createElement("div");
+                ele.className = "unitdc-io input";
+                ele.innerHTML = '<div class="unitdc-io input">' +
+                    '<label class="prompt">In[' + input_counter++ + ']:' +
+                    ' </label> ' +
+                    '<div role="textbox" contenteditable>' +
+                    '</div>' +
+                    '<input type="button" value="submit">' +
+                    '</div>';
+                const textbox = ele.querySelector("div[role=textbox]");
+                const submit_btn = ele.querySelector("input[type=button]");
+                let submit = function() {
+                    submit_btn.style = "display: none;"
+                    window.unitdc_input(textbox.innerText);
+                }
+                textbox.onkeypress = function(e) {
+                    if (e.keyCode == 13 && e.shiftKey) {
+                        e.preventDefault();
+                        submit();
+                    }
+                }
+                submit_btn.onclick = submit;
+                dialog.append(ele);
+                textbox.focus();
+            }
+
+            return function(type, value) {
+                console.log("unitdc: ", type, ": ", value);
+                let ele = document.createElement("div");
+                switch (type) {
+                    case "error":
+                        ele.className = "unitdc-io error"
+                        ele.innerHTML = "<label class=\"prompt\">Error: </label>"
+                        ele.textContent += value
+                        dialog.appendChild(ele);
+                        break;
+                    case "quantity_str":
+                        ele.className = "unitdc-io output"
+                        ele.innerHTML = "<label class=\"prompt\">Out[" + output_counter++
+                            + "]: </label>";
+                        let inner_ele = document.createElement("div");
+                        inner_ele.style = "padding-left: 2em;";
+                        inner_ele.innerText = value.join("\n");
+                        ele.appendChild(inner_ele);
+                        dialog.append(ele);
+                        break;
+                    case "ready":
+                        new_input();
+                        break;
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
