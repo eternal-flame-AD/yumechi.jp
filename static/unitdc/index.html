@@ -2,80 +2,155 @@
 
 <head>
     <meta charset="utf-8" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>UnitDC</title>
     <link rel="stylesheet" href="unitdc.css" />
     <script src="wasm_exec.js"></script>
-    <script>
-        const go = new Go();
-        WebAssembly.instantiateStreaming(fetch("unitdc.wasm"), go.importObject).then((result) => {
-            go.run(result.instance);
-        });
-    </script>
 </head>
 
 <body>
-    <h1>
-        UnitDC
-    </h1>
-    <div id="unitdc-template" style="display: none;">
-        <div class="unitdc-io input">
-            <label class="prompt">In[0]: </label>
-            <div role="textbox" contenteditable>
+    <div class="unitdc-container">
+        <h1>
+            UnitDC <span style="font-style: italic; font-weight: lighter;">The Unit-aware Desk Calculator</span>
+        </h1>
+
+        <div id="unitdc-dialog">
+        </div>
+
+        <div class="unitdc-keyboard-spacer"></div>
+        <div class="unitdc-keyboard" id="unitdc-keyboard">
+
+            <div class="keyboard-col">
+                <div class="keyboard-key" data-tokentype="operator">c</div>
+                <div class="keyboard-key" data-tokentype="unit_modifier" data-modifier="k">(k*)</div>
+                <div class="keyboard-key" data-tokentype="unit_modifier" data-modifier="c">(c*)</div>
+                <div class="keyboard-key" data-tokentype="unit_modifier" data-modifier="d">(d*)</div>
+                <div class="keyboard-key" data-tokentype="ui_action" data-action="append_space">␣</div>
             </div>
-            <input type="button" value="submit">
-        </div>
+            <div class="keyboard-col">
+                <div class="keyboard-key" data-tokentype="operator">d</div>
+                <div class="keyboard-key" data-tokentype="unit_modifier" data-modifier="m">(m*)</div>
+                <div class="keyboard-key" data-tokentype="unit_modifier" data-modifier="u">(u*)</div>
+                <div class="keyboard-key" data-tokentype="unit_modifier" data-modifier="n">(n*)</div>
+                <div class="keyboard-key" data-tokentype="ui_action" data-action="backspace">←</div>
+            </div>
 
-        <div class="unitdc-io error">
-            <label class="prompt">Error: </label>Example Error.
-        </div>
+            <div class="keyboard-col">
+                <div class="keyboard-key" data-tokentype="operator">v</div>
+                <div class="keyboard-key" data-tokentype="literal_num">7</div>
+                <div class="keyboard-key" data-tokentype="literal_num">4</div>
+                <div class="keyboard-key" data-tokentype="literal_num">1</div>
+                <div class="keyboard-key" data-tokentype="literal_num">.</div>
 
-        <div class="unitdc-io output">
-            <label class="prompt">Out[0]: </label>
-            <div style="padding-left: 2em;">
-                [0]: 1.00000<br> [1]: 2.00000<br>
+
+            </div>
+            <div class="keyboard-col">
+                <div class="keyboard-key" data-tokentype="operator">p</div>
+                <div class="keyboard-key" data-tokentype="literal_num">8</div>
+                <div class="keyboard-key" data-tokentype="literal_num">5</div>
+                <div class="keyboard-key" data-tokentype="literal_num">2</div>
+                <div class="keyboard-key" data-tokentype="literal_num">0</div>
+
+
+            </div>
+            <div class="keyboard-col">
+                <div class="keyboard-key" data-tokentype="operator">n</div>
+                <div class="keyboard-key" data-tokentype="literal_num">9</div>
+                <div class="keyboard-key" data-tokentype="literal_num">6</div>
+                <div class="keyboard-key" data-tokentype="literal_num">3</div>
+                <div class="keyboard-key" data-tokentype="literal_num">e</div>
+                <div class="keyboard-key" data-tokentype="ui_action" data-action="append_newline">↩</div>
+            </div>
+
+
+            <div class="keyboard-col">
+                <div class="keyboard-key" data-tokentype="operator">f</div>
+                <div class="keyboard-key" data-tokentype="operator">+</div>
+                <div class="keyboard-key" data-tokentype="operator">-</div>
+                <div class="keyboard-key" data-tokentype="operator">*</div>
+                <div class="keyboard-key" data-tokentype="operator">/</div>
+                <div class="keyboard-key" data-tokentype="ui_action" data-action="submit">✓</div>
+            </div>
+            <div class="keyboard-col">
+                <div class="keyboard-key" data-tokentype="operator">r</div>
+                <div class="keyboard-key" data-tokentype="unit" data-unit="1">(1)</div>
+                <div class="keyboard-key" data-tokentype="unit" data-unit="g">(g)</div>
+                <div class="keyboard-key" data-tokentype="unit" data-unit="l">(l)</div>
+                <div class="keyboard-key" data-tokentype="unit" data-unit="iu">(iu)</div>
+            </div>
+            <div class="keyboard-col">
+                <div class="keyboard-key" data-tokentype="ui_action" data-action="clear-input">CLR</div>
+                <div class="keyboard-key" data-tokentype="unit" data-unit="m">(m)</div>
+                <div class="keyboard-key" data-tokentype="unit" data-unit="mol">(mol)</div>
+                <div class="keyboard-key" data-tokentype="unit" data-unit="M">(M)</div>
+                <div class="keyboard-key" data-tokentype="unit" data-unit="Da">(Da)</div>
             </div>
         </div>
-    </div>
-    <div id="unitdc-dialog">
-
     </div>
 
     <script>
+        let lastInputIsRealKeyboard = true;
         let dialog = document.getElementById("unitdc-dialog");
+        let active_input = null;
+
+        let dialogAppend = function(el) {
+            // allow 1px inaccuracy by adding 1
+            //https: //stackoverflow.com/questions/18614301/keep-overflow-div-scrolled-to-bottom-unless-user-scrolls-up
+            const isScrolledToBottom = dialog.scrollHeight - dialog.clientHeight <= dialog.scrollTop + 1;
+            dialog.appendChild(el)
+            if (isScrolledToBottom)
+                dialog.scrollTop = dialog.scrollHeight;
+        }
+
         window.unitdc_init = function(input_callback) {
             window.unitdc_input = input_callback;
 
             let input_counter = 0;
             let output_counter = 0;
+
+            let last_input = "";
+            let last_input_errored = false;
+
             let new_input = function() {
                 let ele = document.createElement("div");
                 ele.className = "unitdc-io input";
-                ele.innerHTML = '<div class="unitdc-io input">' +
+                ele.innerHTML = '<div class="unitdc-io input input-active">' +
                     '<label class="prompt">In[' + input_counter++ + ']:' +
-                    ' </label> ' +
+                    ' <span class="submit-hint">Shift-Enter to submit<span></label> ' +
                     '<div role="textbox" contenteditable>' +
                     '</div>' +
-                    '<input type="button" value="submit">' +
                     '</div>';
                 const textbox = ele.querySelector("div[role=textbox]");
-                const submit_btn = ele.querySelector("input[type=button]");
+                if (last_input_errored) {
+                    textbox.innerText = last_input
+                    last_input_errored = false
+                }
                 let submitted = false;
                 let submit = function() {
                     if (!submitted) {
-                        submit_btn.style = "display: none;"
-                        window.unitdc_input(textbox.innerText);
+                        last_input = textbox.innerText;
+                        window.unitdc_input("eval", {
+                            "code": textbox.innerText,
+                        });
                         submitted = true;
                     }
                 }
+                window.submit_current = submit;
                 textbox.onkeypress = function(e) {
+                    lastInputIsRealKeyboard = true
                     if (e.keyCode == 13 && e.shiftKey) {
                         e.preventDefault();
                         submit();
                     }
                 }
-                submit_btn.onclick = submit;
-                dialog.append(ele);
-                textbox.focus();
+                document.querySelectorAll(".unitdc-io.input-active").forEach(el =>
+                    el.classList.remove("input-active"))
+                dialogAppend(ele);
+                active_input = textbox;
+
+                if (lastInputIsRealKeyboard)
+                    textbox.focus();
             }
 
             return function(type, value) {
@@ -83,10 +158,11 @@
                 let ele = document.createElement("div");
                 switch (type) {
                     case "error":
+                        last_input_errored = true
                         ele.className = "unitdc-io error"
                         ele.innerHTML = "<label class=\"prompt\">Error: </label>"
                         ele.textContent += value
-                        dialog.appendChild(ele);
+                        dialogAppend(ele);
                         break;
                     case "quantity_str":
                         ele.className = "unitdc-io output"
@@ -96,7 +172,7 @@
                         inner_ele.style = "padding-left: 2em;";
                         inner_ele.innerText = value.join("\n");
                         ele.appendChild(inner_ele);
-                        dialog.append(ele);
+                        dialogAppend(ele);
                         break;
                     case "ready":
                         new_input();
@@ -104,6 +180,106 @@
                 }
             }
         }
+
+        function initializeKeyboard() {
+            let last_token_type = ""
+            let unit_modifier = ""
+            const lastWhitespaceIdx = function() {
+                const cur_input_text = active_input.innerText.trimEnd();
+                return Math.max(...["\n", "\t", " "].map(char =>
+                    cur_input_text.lastIndexOf(char)
+                ))
+            }
+            const keyboardEle = document.getElementById("unitdc-keyboard")
+            keyboardEle.querySelectorAll(".keyboard-key").forEach(key => {
+                key.onclick = (function(e) {
+                    console.log(this)
+                    lastInputIsRealKeyboard = false
+                    let token_type = this.getAttribute("data-tokentype");
+                    switch (token_type) {
+                        case "ui_action":
+                            switch (this.getAttribute("data-action")) {
+                                case "submit":
+                                    window.submit_current();
+                                    break;
+                                case "backspace":
+                                    let last_whitespace_pos = lastWhitespaceIdx();
+                                    if (last_whitespace_pos == -1) {
+                                        active_input.innerText = ""
+                                    } else {
+                                        active_input.innerText = active_input.innerText.substring(0, last_whitespace_pos)
+                                    }
+                                    break
+                                case "clear-input":
+                                    active_input.innerText = ""
+                                    break
+                                case "append_space":
+                                    active_input.innerText += " "
+                                    break
+                                case "append_newline":
+                                    active_input.innerText += "\n"
+                                    break
+                            }
+                            break
+                        case "literal_num":
+                            add_space = false
+                            if (last_token_type != "literal_num" &&
+                                active_input.innerText.trim() != "" &&
+                                lastWhitespaceIdx() != active_input.innerText.length - 1
+                            ) {
+                                add_space = true
+                            }
+                            last_token_type = "literal_num"
+                            active_input.innerText += (add_space ? " " : "") + this.innerText
+                            break
+                        case "operator":
+                            last_token_type = "operator"
+                            add_space = false
+                            if (active_input.innerText.trim() != "" &&
+                                lastWhitespaceIdx() != active_input.innerText.length - 1
+                            ) {
+                                add_space = true
+                            }
+                            active_input.innerText += " " + this.innerText
+                            break
+                        case "unit_modifier":
+                            let modifier_str = this.getAttribute("data-modifier")
+                            keyboardEle.querySelectorAll(".modifier-pressed[data-tokentype=unit_modifier]").forEach(key =>
+                                key.classList.remove("modifier-pressed"))
+                            if (modifier_str == unit_modifier) {
+                                unit_modifier = ""
+                            } else {
+                                unit_modifier = modifier_str
+                                this.classList.add("modifier-pressed")
+                            }
+                            break
+                        case "unit":
+                            let unit_str = this.getAttribute("data-unit")
+                            last_token_type = "unit"
+                            unit_str = "(" + unit_modifier + unit_str + ")"
+                            keyboardEle.querySelectorAll(".modifier-pressed[data-tokentype=unit_modifier]").forEach(key =>
+                                key.classList.remove("modifier-pressed"))
+                            unit_modifier = ""
+                            add_space = false
+                            if (active_input.innerText.trim() != "" &&
+                                lastWhitespaceIdx() != active_input.innerText.length - 1
+                            ) {
+                                add_space = true
+                            }
+                            active_input.innerText += " " + unit_str
+                            break
+                    }
+                }).bind(key)
+            })
+        }
+
+
+        const go = new Go();
+        WebAssembly.instantiateStreaming(fetch("unitdc.wasm"), go.importObject).then((result) => {
+            go.run(result.instance);
+        });
+
+        initializeKeyboard();
     </script>
 </body>
 
