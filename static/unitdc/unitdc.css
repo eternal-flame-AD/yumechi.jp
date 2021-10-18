@@ -32,14 +32,17 @@ label span.submit-hint {
 
 .input {
     background-color: #ececec;
+    white-space: pre;
 }
 
 .output {
     background-color: lightgreen;
+    white-space: pre;
 }
 
 .error {
     background-color: lightpink;
+    white-space: pre;
 }
 
 .input div[contenteditable] {
@@ -95,5 +98,21 @@ label span.submit-hint {
 }
 
 .unitdc-keyboard .modifier-pressed {
-    background-color: #c0c0c0;
+    filter: brightness(.6);
+}
+
+div.keyboard-key[data-tokentype=operator] {
+    background-color: pink;
+}
+
+div.keyboard-key[data-tokentype=literal_num] {
+    background-color: lightskyblue;
+}
+
+div.keyboard-key[data-tokentype=unit_modifier] {
+    background-color: ivory;
+}
+
+div.keyboard-key[data-tokentype=unit] {
+    background-color: lightsteelblue;
 }

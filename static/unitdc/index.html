@@ -11,8 +11,9 @@
 
 <body>
     <div class="unitdc-container">
-        <h1>
-            UnitDC <span style="font-style: italic; font-weight: lighter;">The Unit-aware Desk Calculator</span>
+        <h1 style="white-space: nowrap;">
+            UnitDC
+            <span style="font-style: italic; font-weight: lighter; font-size: smaller;">Unit-aware Desk Calculator</span>
         </h1>
 
         <div id="unitdc-dialog">
@@ -103,8 +104,15 @@
                 dialog.scrollTop = dialog.scrollHeight;
         }
 
-        window.unitdc_init = function(input_callback) {
-            window.unitdc_input = input_callback;
+        function padSpace(x, len) {
+            x = '' + x;
+            const missing = len - x.length;
+            for (let i = 0; i < missing; i++)
+                x = ' ' + x;
+            return x;
+        }
+
+        window.unitdc_init = function(unitdc_input) {
 
             let input_counter = 0;
             let output_counter = 0;
@@ -112,26 +120,26 @@
             let last_input = "";
             let last_input_errored = false;
 
-            let new_input = function() {
+            let new_input = function(info) {
                 let ele = document.createElement("div");
                 ele.className = "unitdc-io input";
                 ele.innerHTML = '<div class="unitdc-io input input-active">' +
-                    '<label class="prompt">In[' + input_counter++ + ']:' +
+                    '<label class="prompt">In[' + input_counter++ + ']: (ST=' + info.state.stack.length + ')' +
                     ' <span class="submit-hint">Shift-Enter to submit<span></label> ' +
                     '<div role="textbox" contenteditable>' +
                     '</div>' +
                     '</div>';
                 const textbox = ele.querySelector("div[role=textbox]");
                 if (last_input_errored) {
-                    textbox.innerText = last_input
+                    textbox.textContent = last_input
                     last_input_errored = false
                 }
                 let submitted = false;
                 let submit = function() {
                     if (!submitted) {
-                        last_input = textbox.innerText;
-                        window.unitdc_input("eval", {
-                            "code": textbox.innerText,
+                        last_input = textbox.textContent;
+                        unitdc_input("eval", {
+                            "code": textbox.textContent,
                         });
                         submitted = true;
                     }
@@ -164,18 +172,21 @@
                         ele.textContent += value
                         dialogAppend(ele);
                         break;
-                    case "quantity_str":
+                    case "quantity":
                         ele.className = "unitdc-io output"
                         ele.innerHTML = "<label class=\"prompt\">Out[" + output_counter++
                             + "]: </label>";
                         let inner_ele = document.createElement("div");
                         inner_ele.style = "padding-left: 2em;";
-                        inner_ele.innerText = value.join("\n");
+
+                        inner_ele.textContent = value.map((val, idx) =>
+                            `[${padSpace(idx-value.length+1, 3)}] ${val.display.str}`
+                        ).join("\r\n");
                         ele.appendChild(inner_ele);
                         dialogAppend(ele);
                         break;
                     case "ready":
-                        new_input();
+                        new_input(value);
                         break;
                 }
             }
@@ -185,8 +196,8 @@
             let last_token_type = ""
             let unit_modifier = ""
             const lastWhitespaceIdx = function() {
-                const cur_input_text = active_input.innerText.trimEnd();
-                return Math.max(...["\n", "\t", " "].map(char =>
+                const cur_input_text = active_input.textContent.trimEnd();
+                return Math.max(...["\r", "\n", "\t", " "].map(char =>
                     cur_input_text.lastIndexOf(char)
                 ))
             }
@@ -198,6 +209,7 @@
                     let token_type = this.getAttribute("data-tokentype");
                     switch (token_type) {
                         case "ui_action":
+                            last_token_type = "ui_action"
                             switch (this.getAttribute("data-action")) {
                                 case "submit":
                                     window.submit_current();
@@ -205,42 +217,42 @@
                                 case "backspace":
                                     let last_whitespace_pos = lastWhitespaceIdx();
                                     if (last_whitespace_pos == -1) {
-                                        active_input.innerText = ""
+                                        active_input.textContent = ""
                                     } else {
-                                        active_input.innerText = active_input.innerText.substring(0, last_whitespace_pos)
+                                        active_input.textContent = active_input.textContent.substring(0, last_whitespace_pos)
                                     }
                                     break
                                 case "clear-input":
-                                    active_input.innerText = ""
+                                    active_input.textContent = ""
                                     break
                                 case "append_space":
-                                    active_input.innerText += " "
+                                    active_input.textContent += " "
                                     break
                                 case "append_newline":
-                                    active_input.innerText += "\n"
+                                    active_input.textContent += "\r\n"
                                     break
                             }
                             break
                         case "literal_num":
                             add_space = false
                             if (last_token_type != "literal_num" &&
-                                active_input.innerText.trim() != "" &&
-                                lastWhitespaceIdx() != active_input.innerText.length - 1
+                                active_input.textContent.trim() != "" &&
+                                lastWhitespaceIdx() != active_input.textContent.length - 1
                             ) {
                                 add_space = true
                             }
                             last_token_type = "literal_num"
-                            active_input.innerText += (add_space ? " " : "") + this.innerText
+                            active_input.textContent += (add_space ? " " : "") + this.textContent
                             break
                         case "operator":
                             last_token_type = "operator"
                             add_space = false
-                            if (active_input.innerText.trim() != "" &&
-                                lastWhitespaceIdx() != active_input.innerText.length - 1
+                            if (active_input.textContent.trim() != "" &&
+                                lastWhitespaceIdx() != active_input.textContent.length - 1
                             ) {
                                 add_space = true
                             }
-                            active_input.innerText += " " + this.innerText
+                            active_input.textContent += " " + this.textContent
                             break
                         case "unit_modifier":
                             let modifier_str = this.getAttribute("data-modifier")
@@ -261,12 +273,12 @@
                                 key.classList.remove("modifier-pressed"))
                             unit_modifier = ""
                             add_space = false
-                            if (active_input.innerText.trim() != "" &&
-                                lastWhitespaceIdx() != active_input.innerText.length - 1
+                            if (active_input.textContent.trim() != "" &&
+                                lastWhitespaceIdx() != active_input.textContent.length - 1
                             ) {
                                 add_space = true
                             }
-                            active_input.innerText += " " + unit_str
+                            active_input.textContent += " " + unit_str
                             break
                     }
                 }).bind(key)
