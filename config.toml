@@ -15,6 +15,8 @@ disqusShortName = "yumechi-kuni"
     title = "Yumechi"
     weight = 1
     copyright = '''© Yumechi.'''
+    staticDir = "static"
+    staticDirs2 = "static_en"
     [languages.en.params]
         [languages.en.params.header]
           navbarTitle = "Yumechi"
@@ -51,6 +53,12 @@ disqusShortName = "yumechi-kuni"
             pre = ""
             url = "/resource/"
             weight = 15
+          [[languages.en.menu.main]]
+            name = "UnitDC"
+            identifier = "UnitDC"
+            pre = ""
+            url = "https://yumechi.jp/unitdc/"
+            weight = 20
   
   [languages.ja]
     contentDir = "content/ja"
@@ -58,6 +66,8 @@ disqusShortName = "yumechi-kuni"
     title = "ゆめちの国"
     weight = 2
     copyright = '''©  Yumechi.'''
+    staticDir = "static"
+    staticDirs2 = "static_ja"
     [languages.ja.params]
       [languages.ja.params.header]
         navbarTitle = "ゆめちの国"
@@ -84,7 +94,7 @@ disqusShortName = "yumechi-kuni"
       [languages.ja.menu]
         [[languages.ja.menu.main]]
           name = "記事"
-          dentifier = "Blog"
+          identifier = "Blog"
           pre = ""
           url = "/blog/"
           weight = 10
@@ -94,6 +104,12 @@ disqusShortName = "yumechi-kuni"
           pre = ""
           url = "/resource/"
           weight = 15
+        [[languages.ja.menu.main]]
+          name = "UnitDC"
+          identifier = "UnitDC"
+          pre = ""
+          url = "https://yumechi.jp/unitdc/"
+          weight = 20
         
 [social]
   github = "eternal-flame-AD"

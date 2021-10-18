@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -5,7 +6,7 @@
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>UnitDC</title>
-    <link rel="stylesheet" href="unitdc.css" />
+    <link rel="stylesheet" href="unitdc.css">
     <script src="wasm_exec.js"></script>
 </head>
 
@@ -13,86 +14,125 @@
     <div class="unitdc-container">
         <h1 style="white-space: nowrap;">
             UnitDC
-            <span style="font-style: italic; font-weight: lighter; font-size: smaller;">Unit-aware Desk Calculator</span>
+            <span style="font-style: italic; font-weight: lighter; font-size: smaller;" id="unitdc-description">Unit-aware Desk Calculator</span>
         </h1>
 
         <div id="unitdc-dialog">
         </div>
 
         <div class="unitdc-keyboard-spacer"></div>
-        <div class="unitdc-keyboard" id="unitdc-keyboard">
+    </div>
+    <div class="unitdc-keyboard" id="unitdc-keyboard">
 
-            <div class="keyboard-col">
-                <div class="keyboard-key" data-tokentype="operator">c</div>
-                <div class="keyboard-key" data-tokentype="unit_modifier" data-modifier="k">(k*)</div>
-                <div class="keyboard-key" data-tokentype="unit_modifier" data-modifier="c">(c*)</div>
-                <div class="keyboard-key" data-tokentype="unit_modifier" data-modifier="d">(d*)</div>
-                <div class="keyboard-key" data-tokentype="ui_action" data-action="append_space">␣</div>
-            </div>
-            <div class="keyboard-col">
-                <div class="keyboard-key" data-tokentype="operator">d</div>
-                <div class="keyboard-key" data-tokentype="unit_modifier" data-modifier="m">(m*)</div>
-                <div class="keyboard-key" data-tokentype="unit_modifier" data-modifier="u">(u*)</div>
-                <div class="keyboard-key" data-tokentype="unit_modifier" data-modifier="n">(n*)</div>
-                <div class="keyboard-key" data-tokentype="ui_action" data-action="backspace">←</div>
-            </div>
+        <div class="keyboard-col">
+            <div class="keyboard-key" data-tokentype="operator">c</div>
+            <div class="keyboard-key" data-tokentype="unit_modifier" data-modifier="k">(k*)</div>
+            <div class="keyboard-key" data-tokentype="unit_modifier" data-modifier="c">(c*)</div>
+            <div class="keyboard-key" data-tokentype="unit_modifier" data-modifier="d">(d*)</div>
+            <div class="keyboard-key" data-tokentype="ui_action" data-action="append_space">␣</div>
+        </div>
+        <div class="keyboard-col">
+            <div class="keyboard-key" data-tokentype="operator">d</div>
+            <div class="keyboard-key" data-tokentype="unit_modifier" data-modifier="m">(m*)</div>
+            <div class="keyboard-key" data-tokentype="unit_modifier" data-modifier="u">(u*)</div>
+            <div class="keyboard-key" data-tokentype="unit_modifier" data-modifier="n">(n*)</div>
+            <div class="keyboard-key" data-tokentype="ui_action" data-action="backspace">←</div>
+        </div>
 
-            <div class="keyboard-col">
-                <div class="keyboard-key" data-tokentype="operator">v</div>
-                <div class="keyboard-key" data-tokentype="literal_num">7</div>
-                <div class="keyboard-key" data-tokentype="literal_num">4</div>
-                <div class="keyboard-key" data-tokentype="literal_num">1</div>
-                <div class="keyboard-key" data-tokentype="literal_num">.</div>
-
-
-            </div>
-            <div class="keyboard-col">
-                <div class="keyboard-key" data-tokentype="operator">p</div>
-                <div class="keyboard-key" data-tokentype="literal_num">8</div>
-                <div class="keyboard-key" data-tokentype="literal_num">5</div>
-                <div class="keyboard-key" data-tokentype="literal_num">2</div>
-                <div class="keyboard-key" data-tokentype="literal_num">0</div>
+        <div class="keyboard-col">
+            <div class="keyboard-key" data-tokentype="operator">v</div>
+            <div class="keyboard-key" data-tokentype="literal_num">7</div>
+            <div class="keyboard-key" data-tokentype="literal_num">4</div>
+            <div class="keyboard-key" data-tokentype="literal_num">1</div>
+            <div class="keyboard-key" data-tokentype="literal_num">.</div>
 
 
-            </div>
-            <div class="keyboard-col">
-                <div class="keyboard-key" data-tokentype="operator">n</div>
-                <div class="keyboard-key" data-tokentype="literal_num">9</div>
-                <div class="keyboard-key" data-tokentype="literal_num">6</div>
-                <div class="keyboard-key" data-tokentype="literal_num">3</div>
-                <div class="keyboard-key" data-tokentype="literal_num">e</div>
-                <div class="keyboard-key" data-tokentype="ui_action" data-action="append_newline">↩</div>
-            </div>
+        </div>
+        <div class="keyboard-col">
+            <div class="keyboard-key" data-tokentype="operator">p</div>
+            <div class="keyboard-key" data-tokentype="literal_num">8</div>
+            <div class="keyboard-key" data-tokentype="literal_num">5</div>
+            <div class="keyboard-key" data-tokentype="literal_num">2</div>
+            <div class="keyboard-key" data-tokentype="literal_num">0</div>
 
 
-            <div class="keyboard-col">
-                <div class="keyboard-key" data-tokentype="operator">f</div>
-                <div class="keyboard-key" data-tokentype="operator">+</div>
-                <div class="keyboard-key" data-tokentype="operator">-</div>
-                <div class="keyboard-key" data-tokentype="operator">*</div>
-                <div class="keyboard-key" data-tokentype="operator">/</div>
-                <div class="keyboard-key" data-tokentype="ui_action" data-action="submit">✓</div>
-            </div>
-            <div class="keyboard-col">
-                <div class="keyboard-key" data-tokentype="operator">r</div>
-                <div class="keyboard-key" data-tokentype="unit" data-unit="1">(1)</div>
-                <div class="keyboard-key" data-tokentype="unit" data-unit="g">(g)</div>
-                <div class="keyboard-key" data-tokentype="unit" data-unit="l">(l)</div>
-                <div class="keyboard-key" data-tokentype="unit" data-unit="iu">(iu)</div>
-            </div>
-            <div class="keyboard-col">
-                <div class="keyboard-key" data-tokentype="ui_action" data-action="clear-input">CLR</div>
-                <div class="keyboard-key" data-tokentype="unit" data-unit="m">(m)</div>
-                <div class="keyboard-key" data-tokentype="unit" data-unit="mol">(mol)</div>
-                <div class="keyboard-key" data-tokentype="unit" data-unit="M">(M)</div>
-                <div class="keyboard-key" data-tokentype="unit" data-unit="Da">(Da)</div>
-            </div>
+        </div>
+        <div class="keyboard-col">
+            <div class="keyboard-key" data-tokentype="operator">n</div>
+            <div class="keyboard-key" data-tokentype="literal_num">9</div>
+            <div class="keyboard-key" data-tokentype="literal_num">6</div>
+            <div class="keyboard-key" data-tokentype="literal_num">3</div>
+            <div class="keyboard-key" data-tokentype="literal_num">e</div>
+            <div class="keyboard-key" data-tokentype="ui_action" data-action="append_newline">↩</div>
+        </div>
+
+
+        <div class="keyboard-col">
+            <div class="keyboard-key" data-tokentype="operator">f</div>
+            <div class="keyboard-key" data-tokentype="operator">+</div>
+            <div class="keyboard-key" data-tokentype="operator">-</div>
+            <div class="keyboard-key" data-tokentype="operator">*</div>
+            <div class="keyboard-key" data-tokentype="operator">/</div>
+            <div class="keyboard-key" data-tokentype="ui_action" data-action="submit">✓</div>
+        </div>
+        <div class="keyboard-col">
+            <div class="keyboard-key" data-tokentype="operator">r</div>
+            <div class="keyboard-key" data-tokentype="unit" data-unit="1">(1)</div>
+            <div class="keyboard-key" data-tokentype="unit" data-unit="g">(g)</div>
+            <div class="keyboard-key" data-tokentype="unit" data-unit="l">(l)</div>
+            <div class="keyboard-key" data-tokentype="unit" data-unit="iu">(iu)</div>
+        </div>
+        <div class="keyboard-col">
+            <div class="keyboard-key" data-tokentype="ui_action" data-action="clear-input">CLR</div>
+            <div class="keyboard-key" data-tokentype="unit" data-unit="m">(m)</div>
+            <div class="keyboard-key" data-tokentype="unit" data-unit="mol">(mol)</div>
+            <div class="keyboard-key" data-tokentype="unit" data-unit="M">(M)</div>
+            <div class="keyboard-key" data-tokentype="unit" data-unit="Da">(Da)</div>
         </div>
     </div>
 
+
     <script>
+        function do_i18n(key, ...args) {
+            const i18n_strings = {
+                "en": {
+                    "prompt_error": () => "Error: ",
+                    "unitdc-description": () => "Unit-aware Desk Calculator",
+                    "prompt_input": (idx, stack_depth) => `In[${idx}]: (ST=${stack_depth})`,
+                    "prompt_output": (idx) => `Out[${idx}]:`,
+                    "prompt_shift_enter_submit": () => "Shift-Enter to submit"
+                },
+                "ja": {
+                    "prompt_error": () => "エラー： ",
+                    "unitdc-description": () => "物理量の計算機",
+                    "prompt_input": (idx, stack_depth) => `入力[${idx}]： (ST=${stack_depth})`,
+                    "prompt_output": (idx) => `出力[${idx}]：`,
+                    "prompt_shift_enter_submit": () => "Shift-Enter で提出します"
+                },
+            }
+            let language = navigator.language || navigator.userLanguage;
+            if (!language)
+                language = "en"
+
+            let i18n_result = i18n_strings.en[key](...args);
+            let i18n_match_len = 0;
+            for (const i18n_key in i18n_strings) {
+                if (language.startsWith(i18n_key) && i18n_match_len < i18n_key.length) {
+                    let i18n_func = i18n_strings[i18n_key][key]
+                    if (i18n_func) {
+                        i18n_match_len = i18n_key.length
+                        i18n_result = i18n_func(...args)
+                    }
+                }
+            }
+            return i18n_result;
+        }
+
+        document.getElementById("unitdc-description").innerText = do_i18n("unitdc-description")
+
         let lastInputIsRealKeyboard = true;
         let dialog = document.getElementById("unitdc-dialog");
+        []
         let active_input = null;
 
         let dialogAppend = function(el) {
@@ -124,8 +164,8 @@
                 let ele = document.createElement("div");
                 ele.className = "unitdc-io input";
                 ele.innerHTML = '<div class="unitdc-io input input-active">' +
-                    '<label class="prompt">In[' + input_counter++ + ']: (ST=' + info.state.stack.length + ')' +
-                    ' <span class="submit-hint">Shift-Enter to submit<span></label> ' +
+                    '<label class="prompt">' + do_i18n("prompt_input", input_counter++, info.state.stack.length) +
+                    '<span class="submit-hint">' + do_i18n("prompt_shift_enter_submit") + '<span></label> ' +
                     '<div role="textbox" contenteditable>' +
                     '</div>' +
                     '</div>';
@@ -168,14 +208,13 @@
                     case "error":
                         last_input_errored = true
                         ele.className = "unitdc-io error"
-                        ele.innerHTML = "<label class=\"prompt\">Error: </label>"
+                        ele.innerHTML = "<label class=\"prompt\">" + do_i18n("prompt_error") + " </label>"
                         ele.textContent += value
                         dialogAppend(ele);
                         break;
                     case "quantity":
                         ele.className = "unitdc-io output"
-                        ele.innerHTML = "<label class=\"prompt\">Out[" + output_counter++
-                            + "]: </label>";
+                        ele.innerHTML = "<label class=\"prompt\">" + do_i18n("prompt_output", output_counter++) + "</label>";
                         let inner_ele = document.createElement("div");
                         inner_ele.style = "padding-left: 2em;";
 

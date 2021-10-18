@@ -1,3 +1,7 @@
+html {
+    height: 100%;
+}
+
 .unitdc-io {
     margin: .5em .25em .5em;
     min-height: 1em;
@@ -6,14 +10,14 @@
 }
 
 #unitdc-dialog {
-    max-height: calc(45vh);
+    max-height: calc(60vh);
     padding-bottom: .5rem;
     overflow-y: scroll;
     overflow-x: visible;
 }
 
 .unitdc-container {
-    overflow-y: scroll;
+    overflow-y: hidden;
     position: relative;
     height: 100%;
 }
