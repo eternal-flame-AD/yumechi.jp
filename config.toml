@@ -1,7 +1,7 @@
 baseURL = "https://yumechi.jp/"
 theme = "hugo-future-imperfect-slim"
 author = "Yumechi"
-defaultContentLanguage = "ja"
+defaultContentLanguage = "en"
 defaultContentLanguageInSubdir = true
 disqusShortName = "yumechi-kuni"
 
@@ -26,9 +26,10 @@ disqusShortName = "yumechi-kuni"
         paragraph = '''
         Hi! This is Yumechi’s personal website.　(つω`*)ﾃﾍ
         <ul>
-          <li>UT Austin<br /></li>
+          <li>UT Austin 2019-2023<br /></li>
           <li>Computational Biology, Japanese Learner</li>
-          <li>MTF (´；ω；｀) SRS 2022</li>
+          <li>MTF (´；ω；｀) Post-op</li>
+          <li>Blood Donor -> 60 units PLT</li> 
           <li>Cybersecurity</li>
           <li>Golang Lover</li>
         </ul>
@@ -79,7 +80,7 @@ disqusShortName = "yumechi-kuni"
         <ul>
           <li>テキサス大学オースティン校　<br /></li>
           <li>計算生物科学 日本語 勉強中</li>
-          <li>MTF (´；ω；｀)　手術<span class="joke-text">仮釈放</span>予定　2022/01</li>
+          <li>MTF (´；ω；｀)　手術 -> 2022/01</li>
           <li>サイバーセキュリティバイト中</li>
           <li>Golang 大好き</li>
         </ul>
