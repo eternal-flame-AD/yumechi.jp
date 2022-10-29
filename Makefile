@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := dev
 
 HUGO=.bin/hugo
-HUGO_VERSION=0.86.0
+HUGO_VERSION=0.105.0
 
 FUNCTIONS := functions/_deploy/hello functions/_deploy/comment_submit
 
