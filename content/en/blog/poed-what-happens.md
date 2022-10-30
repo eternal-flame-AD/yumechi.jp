@@ -1,7 +1,6 @@
 ---
 title: "When * Hits The Fan - Texas Emergency Detention (POED) Experience"
 date: 2022-10-28T20:57:28-05:00
-draft: true
 tags: ["Mental Health"]
 categories: ["Personal"]
 ---
@@ -18,7 +17,7 @@ I vomit when I wake up. There was once I almost fell asleep on the freeway (I ki
 remember when I closed my eyes)...
 
 It went on for about 2 weeks and then things started to fall apart: I was missing some classes and dues but
-I have no motivation nor the ability to concentrat eto catch up at all.
+I have no motivation nor the ability to concentrate to catch up at all.
 Honestly it wasn't _that_ bad, I made some mistakes but it wasn't unrecoverable.
 I should have asked for forgiveness and see what my options were.
 Though my self esteem issues really make it impossible for me to see that I could forgive myself at the point:
@@ -84,10 +83,23 @@ Then I was taken upstairs and walked through "the door"... I was anxious, shiver
 ask for a blanket... Got strip searched where they documented my scars and after all that it was about
 5A so I was not sleepy anymore. I didn't get my clothes and a book I stuffed in until the second day.
 
+Quick Facts:
+- Two beds, two nightstands, an overhead light, a plastic shelf behind door, barred windows.
+  Restroom is anti-ligature design (no rods, hooks, trapezoid-shaped stall doors).
+- You could wear your own clothes (even shoes without shoelaces)
+  I couldn't bother... It really does not matter whether I wear a scrub or street clothes I get treated the same...
+  In many ways the scrubs are more comfortable to be honest considering how easy it was to soil my clothes in that environment.
+  Also laundry/shower were awkward so I just left my own clothes clean and unworn until discharge.
+  It's just tha size... They only had XL and XXL ones I literally rolled a whole palm length so I won't step on my pants.
+- Chaotic in the common areas, sensory deprived in the room...
+- Unbelievably euphoric expressive therapists... I went to like 2 sessions and gave up...
+- I did not get an order to get outside but I heard you could go outside (outside==balcony, not ground floor..) every afternoon.
+  So I technically spent a week without stepping outside the unit... (sounds depressing lol)
+
 ## The Unit
 
-Honestly I was probably the luckiest of the luckiest I expected worse... Well I needed it so probably
-it is more useful to think about the pros rather than the cons.
+Honestly I was probably the luckiest of the luckiest (In the US at least) I expected worse... 
+Well I needed it so probably it is more useful to think about the pros rather than the cons.
 - The place is really really clean, it was just that unforgettable hospital smell. 
   Thought I might even get locked in at night, didn't happen.
 - Didn't have a roommate, although I had two freaky encounters. The first was someone disassociating
@@ -99,19 +111,33 @@ it is more useful to think about the pros rather than the cons.
 - We made some good progress regarding past therapy failures and identifying sources of delusions.
 - I honestly got used to the life pretty quickly... Almost comical that another girl who came after
   me was almost the same: shivering anxious and then got used to it after a day or two.
-- It got unbearbly boring after 3-4 days and I felt better. The smell, paper bags, plastic cups,
-  paper scrubs, key sounds, locked doors, window bars, safety screws, metal toilet, nowhere to hang anything.
-  I drew a JavaScript parody on the whiteboard,  explained to myself why it was so funny and laughed real hard ... lol
+- The smell, paper bags, plastic cups,
+  paper scrubs, key sounds, locked doors, behind bars, safety screws, metal toilet, rubber pens,
+  weighted chairs, nowhere to hang anything.
+  I'm sure it is probably a bit "dehumanizing"...
+  It sounds really wrong but at the time losing my humanity felt like a blessing... 
+  I could let myself "die inside" for a few days and I have really no option but to only care about myself...
+- It got unbearably boring after 3-4 days and I felt better. 
+  Exercise kept me going. My routine was skipping without rope, 9x+1x double-under 30reps. 
+  Literally felt like I was on the _top of the world_ every time! 
+  (well sarcasm is to feel that while looking at sun barely shining into the barred windows...)
 - Staff were pretty courteous, after they believed I won't do something stupid the 15-min checkups were
   much less invasive. I got 1hr phone time per day from day 4 or day 5 couldn't remember. Met 3 nurses who were
   _really really_ nice to me :) .
 
+I didn't really have visitors or even someone to call... I wonder how people actually need to wait to use the phones on unit..
+It was really interesting to observe the brutal reality of human relations: how people convince themselves they do not have a
+problem, how the helped end up struggling with the relationship with helpers, how parents could not stop appraising their child
+when it was probably obvious she did not have a easy upbringing...
+
 I stayed for 6.5d. Fell almost surreal when I finally stepped outside,
-the sun was so bright and all the colors were so vibrant...
+the sun was so bright and all the colors were so vibrant once I got used to the white/blue/gray theme...
+I could still recall way more detail than I needed to...
 
 ## Aftermath
 
 It wasn't THAT bad... I transferred to voluntary within 24 hours so a judge didn't get involved so legally I wasn't really "committed".
+I needed a break and I got it, albeit in a less-than-optimal way...
 Most of my instructors are understanding and gave me plenty of time to catch back up.
 It was a pretty big shock and bumped my feeling up quite a lot and it was just weaning off (well safely so far).
 
