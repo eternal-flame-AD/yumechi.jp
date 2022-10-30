@@ -33,3 +33,6 @@ other = "Go back"
 
 [date_format]
 other = "1/2/2006"
+
+[about]
+other = "<img src=\"/img/trima/en/btn_more_info.gif\" height=\"50rem\">"

@@ -1,0 +1,6 @@
+{{ $lang := .Language.Lang }}
+{{ with .OutputFormats.Get "RSS" }}
+<li><a style="opacity: 1" href="{{ .RelPermalink }}" type="application/rss+xml" target="_blank" title="RSS">
+        <img src="/img/trima/{{ $lang }}/btn_sound_on.gif" title="RSS">
+    </a></li>
+{{ end }}

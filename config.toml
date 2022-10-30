@@ -34,6 +34,10 @@ disqusShortName = "yumechi-kuni"
           <li>Golang Lover</li>
         </ul>
         '''
+          [languages.en.params.intro.pic]
+            src = "/img/trima/en/btn_vista_operator.gif"
+            width = "50em"
+            alt = "Yumechi"
         [languages.en.params.sidebar]
         about = '''
         Japanese version may be different in content to optimize suitability for readers. <br />
@@ -85,6 +89,10 @@ disqusShortName = "yumechi-kuni"
           <li>Golang 大好き</li>
         </ul>
         '''
+        [languages.ja.params.intro.pic]
+            src = "/img/trima/ja/btn_vista_operator.gif"
+            width = "50em"
+            alt = "Yumechi"
       [languages.ja.params.sidebar]
         about = '''
         読者コミュニティを対応のために、英語版との記事の内容は違いがあります。<br />

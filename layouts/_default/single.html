@@ -1,8 +1,8 @@
 {{ define "main" }}
-
 <article>
 
     <div class="post">
+        {{ .Scratch.Set "scope" "single" }}
         {{ .Render "header" }}
         <div id="socnet-share">
             {{ partial "share-buttons" . }}
@@ -16,17 +16,19 @@
                     div.content.tategumi button[data-show="yoko"] {
                         display: none;
                     }
-                    
+
                     div.content.tategumi button[data-show="tate"] {
                         display: block;
                     }
-                    
+
                     div.content button[data-show="tate"] {
                         display: none;
                     }
                 </style>
-                <button onclick="toggleTategumi('div.content')" data-show="tate">{{ T "tategumi-switch-yokogumi" }}</button>
-                <button onclick="toggleTategumi('div.content')" data-show="yoko">{{ T "tategumi-switch-tategumi" }}</button>
+                <button onclick="toggleTategumi('div.content')" data-show="tate">{{ T "tategumi-switch-yokogumi"
+                    }}</button>
+                <button onclick="toggleTategumi('div.content')" data-show="yoko">{{ T "tategumi-switch-tategumi"
+                    }}</button>
             </div>
             {{else}}
             <div class="content">
@@ -40,7 +42,9 @@
 </article>
 <div class="pagination">
     {{ if .NextInSection }}
-    <a href="{{ .NextInSection.RelPermalink }}" class="button left"><span>{{ .NextInSection.Title }}</span></a> {{ end }} {{ if .PrevInSection }}
-    <a href="{{ .PrevInSection.RelPermalink }}" class="button right"><span>{{ .PrevInSection.Title }}</span></a> {{ end }}
+    <a href="{{ .NextInSection.RelPermalink }}" class="button left"><span>{{ .NextInSection.Title }}</span></a> {{ end
+    }} {{ if .PrevInSection }}
+    <a href="{{ .PrevInSection.RelPermalink }}" class="button right"><span>{{ .PrevInSection.Title }}</span></a> {{ end
+    }}
 </div>
 {{ end }}

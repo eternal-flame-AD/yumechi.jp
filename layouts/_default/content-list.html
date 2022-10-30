@@ -1,4 +1,5 @@
 {{ if not .Params.unlisted }}
+{{ .Scratch.Set "scope" "list" }}
 <article class="post">
   {{ .Render "header" }}
   <div class="content">
@@ -11,9 +12,11 @@
       {{end}}
       {{ $.Scratch.Get "summary" }}
   </div>
+  <!--
   <footer>
     <a href="{{ .RelPermalink }}" class="button big">{{ i18n "read_more" }}</a>
     {{ .Render "stats" }}
   </footer>
+-->
 </article>
 {{ end }}

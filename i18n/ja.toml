@@ -42,3 +42,6 @@ other = "横組みにする"
 
 [say_something]
   other = "ゆめちとお話し"
+
+[about]
+other = "<img src=\"/img/trima/ja/btn_more_info.gif\" height=\"50rem\">"
