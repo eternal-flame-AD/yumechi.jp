@@ -59,6 +59,12 @@ disqusShortName = "yumechi-kuni"
             url = "/resource/"
             weight = 15
           [[languages.en.menu.main]]
+            name = "VAULT"
+            identifier = "Vault"
+            pre = ""
+            url = "https://vault.yumechi.jp/"
+            weight = 20
+          [[languages.en.menu.main]]
             name = "UnitDC"
             identifier = "UnitDC"
             pre = ""
