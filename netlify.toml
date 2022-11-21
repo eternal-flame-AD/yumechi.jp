@@ -51,6 +51,14 @@
   force = true
 
 [[redirects]]
+  from = "/ja/unitdc/"
+  to = "/unitdc/"
+
+[[redirects]]
+  from = "/en/unitdc/"
+  to = "/unitdc/"
+
+[[redirects]]
   from = "/en/*"
   to = "/en/404.html"
   status = 404
