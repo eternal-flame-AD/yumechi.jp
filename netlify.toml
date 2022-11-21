@@ -36,12 +36,12 @@
 
 
 # redirect japanese users to /ja/
-[[redirects]]
-  from = "/"
-  to = "/ja/"
-  status = 302
-  force = true
-  conditions = {Language = ["ja"]}
+#[[redirects]]
+#  from = "/"
+#  to = "/ja/"
+#  status = 302
+#  force = true
+#  conditions = {Language = ["ja"]}
 
 # default to /en/
 [[redirects]]
