@@ -4,7 +4,8 @@
 <head>
     <title>ゆめち　ウエーブ検索</title>
     <meta name="referrer" content="no-referrer">
-    <link rel="search" type="application/opensearchdescription+xml" title="ゆめち　ウエーブ検索" href="/private/kensaku-opensearch.xml">
+    <link rel="search" type="application/opensearchdescription+xml" title="ゆめち　ウエーブ検索"
+        href="/private/kensaku-opensearch.xml">
     <style>
         .error {
             color: red;
@@ -18,20 +19,12 @@
 
     </div>
     <form id="query-form">
-        <label>Query: <input type="text" id="search-input"/></label>
+        <label>Query: <input type="text" id="search-input" /></label>
         <button type="submit">Submit</button>
     </form>
     <script>
         window.onerror = e =>
             document.querySelector("#errmsg").innerText = e.message || e
-
-        function encodeQueryParam(val) {
-            // https://stackoverflow.com/questions/597028/how-to-encode-a-query-string-so-that-it-is-the-value-of-another-query-string-in/30711201#30711201
-            return encodeURIComponent(val).
-            replace(/%26/gi, '&').
-            replace(/%3D/gi, '=').
-            replace(/%2B/gi, '+');
-        }
 
         function decodeQueryParam(val) {
             return decodeURIComponent(val.replace(/&/g, "%26").replace(/=/g, "%3D").replace(/\+/g, " "));
@@ -50,24 +43,24 @@
                 // GENERAL
                 case "ddg":
                 case "duckduckgo":
-                    window.location = "https://duckduckgo.com/?t=ffab&q=" + encodeQueryParam(keyword)
+                    window.location = "https://duckduckgo.com/?t=ffab&q=" + encodeURIComponent(keyword)
                     break
                 case "g":
                 case "google":
-                    window.location = "https://www.google.com/search?q=" + encodeQueryParam(keyword)
+                    window.location = "https://www.google.com/search?q=" + encodeURIComponent(keyword)
                     break
                 case "gimg":
                 case "gimage":
-                    window.location = "https://www.google.com/search?tbm=isch&q=" + encodeQueryParam(keyword)
+                    window.location = "https://www.google.com/search?tbm=isch&q=" + encodeURIComponent(keyword)
                     break
                 case "yt":
                 case "youtube":
-                    window.location = "https://www.youtube.com/results?search_query=" + encodeQueryParam(keyword)
+                    window.location = "https://www.youtube.com/results?search_query=" + encodeURIComponent(keyword)
                     break
                 case "mdn":
-                    window.location = "https://developer.mozilla.org/en-US/search?q=" + encodeQueryParam(keyword)
+                    window.location = "https://developer.mozilla.org/en-US/search?q=" + encodeURIComponent(keyword)
                     break
-                    // JITEN
+                // JITEN
                 case "jisho":
                     window.location = "https://jisho.org/search/" + encodeURIComponent(keyword)
                     break
@@ -82,13 +75,13 @@
                 case "gooen":
                     window.location = "https://dictionary.goo.ne.jp/srch/en/" + encodeURIComponent(keyword) + "/m0u/"
                     break
-                    // ACADEMICS
+                // ACADEMICS
                 case "utlib":
-                    window.location = "https://search.lib.utexas.edu/discovery/search?vid=01UTAU_INST:SEARCH&tab=Everything&search_scope=MyInst_and_CI&offset=0&radios=resources&query=any,contains," + encodeQueryParam(keyword)
+                    window.location = "https://search.lib.utexas.edu/discovery/search?vid=01UTAU_INST:SEARCH&tab=Everything&search_scope=MyInst_and_CI&offset=0&radios=resources&query=any,contains," + encodeURIComponent(keyword)
                     break
                 case "gs":
                 case "gscolar":
-                    document.location = "https://scholar.google.com/scholar?q=" + encodeQueryParam(keyword)
+                    document.location = "https://scholar.google.com/scholar?q=" + encodeURIComponent(keyword)
                     break
                 case "pdbj":
                     if (keyword.match(/^[a-zA-Z0-9]{4}$/))
@@ -96,7 +89,7 @@
                     else if (keyword.match(/^[a-zA-Z]{3}$/))
                         window.location = "https://pdbj.org/chemie/summary/" + encodeURIComponent(keyword)
                     else
-                        window.location = "https://pdbj.org/search/pdb?query=" + encodeQueryParam(keyword)
+                        window.location = "https://pdbj.org/search/pdb?query=" + encodeURIComponent(keyword)
                     break
                 case "pdb":
                 case "rcsb":
@@ -105,7 +98,7 @@
                     else if (keyword.match(/^[a-zA-Z]{3}$/))
                         window.location = "https://www.rcsb.org/ligand/" + encodeURIComponent(keyword)
                     else
-                        window.location = "https://www.rcsb.org/search?request=" + encodeQueryParam(JSON.stringify({
+                        window.location = "https://www.rcsb.org/search?request=" + encodeURIComponent(JSON.stringify({
                             "query": {
                                 "type": "terminal",
                                 "label": "full_text",
