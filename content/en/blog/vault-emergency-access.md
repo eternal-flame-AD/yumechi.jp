@@ -43,6 +43,28 @@ and [translate](https://github.com/eternal-flame-AD/keepass-vault-sync/blob/main
 
 The source code for this is available [here](https://github.com/eternal-flame-AD/keepass-vault-sync).
 
+**Update 5/10/2023:**
+
+I ended up feeling writing my own Keepass Plugin is much easier from a secret management perspective that
+I do not need to find a way to route my Vault AND Keepass secrets to one more place.
+
+I am not very fluent in C# and its build system, only point and click on the GUI of Rider and 
+I could not get the [PLGX](https://keepass.info/help/v2_dev/plg_index.html#plgx) plugin system to work.
+(Also it does not support .NET 5.0 upwards so I did not want to deal with it).
+
+In the end I designed a system with inspirations from the above mentioned `keepass-vault-sync-plugin` but
+fully rewritten with more focus on the features I want,
+like being able to do multiple syncs with custom filters based on tag or path.
+
+Here is a screenshot of the plugin in action, 
+it will figure out the vault credentials and corresponding filters from special Keepass entries,
+sync all entries to vault and optionally delete orphaned entries in vault.
+
+![keepass-vault-sync](https://github.com/eternal-flame-AD/KeepassVaultSync/blob/main/ScreenShots/SyncInProgress.png?raw=true)
+
+Not sure if it is my connection or the Azure storage backend
+sometimes I get timeouts on requests so I had to add a retry. So far I have not had a permanent failure after 3 retries.
+
 ### Writing the Authentication Plugin
 
 I got a bunch of pretty cheap YubiKeys in the Cloudflare promotion so I was thinking of using YubiKey password login as the authentication method. An additional benefit of this is I can use the key as 2FA method as well.
