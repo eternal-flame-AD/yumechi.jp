@@ -6,3 +6,23 @@ languageName = "English"
 languagedirection = "ltr"
 title = "Yumechi"
 weight = 1
+[en.params.sidebar]
+subtitle = "いい夢を🌙"
+
+[zh]
+contentDir = "content/zh"
+languageName = "中文"
+languagedirection = "ltr"
+title = "Yumechi"
+weight = 2
+[zh.params.sidebar]
+subtitle = "好梦🌙"
+
+[ja]
+contentDir = "content/ja"
+languageName = "日本語"
+languagedirection = "ltr"
+title = "Yumechi"
+weight = 3
+[ja.params.sidebar]
+subtitle = "いい夢を🌙"
