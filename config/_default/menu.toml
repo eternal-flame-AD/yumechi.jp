@@ -1,0 +1,49 @@
+# Configure main menu and social menu
+[[main]]
+identifier = "home"
+name = "Home"
+url = "/"
+weight = 5
+[main.params]
+icon = "home"
+
+[[main]]
+identifier = "blog"
+name = "Blog"
+url = "/blog/"
+weight = 10
+[main.params]
+icon = "archives"
+
+[[main]]
+identifier = "resource"
+name = "Resources"
+url = "/resource/"
+weight = 15
+[main.params]
+icon = "archives"
+
+[[main]]
+identifier = "UnitDC"
+name = "UnitDC"
+url = "https://yumechi.jp/unitdc/"
+weight = 20
+[main.params]
+icon = "hash"
+newtab = true
+
+[[social]]
+identifier = "github"
+name = "GitHub"
+url = "https://github.com/eternal-flame-AD"
+
+[social.params]
+icon = "brand-github"
+
+[[social]]
+identifier = "twitter"
+name = "Twitter"
+url = "https://twitter.com/eternalflame_AD"
+
+[social.params]
+icon = "brand-twitter"

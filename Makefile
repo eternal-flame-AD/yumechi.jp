@@ -3,14 +3,11 @@
 HUGO=.bin/hugo
 HUGO_VERSION=0.111.3
 
-FUNCTIONS := functions/_deploy/hello functions/_deploy/comment_submit
+FUNCTIONS := functions/_deploy/hello
 
 functions/_deploy/hello : functions/src/hello functions/src/hello/**
-	go build -o $@ github.com/eternal-flame-ad/yumechi.jp/$(firstword $^)
-
-functions/_deploy/comment_submit : functions/src/comment_submit functions/src/comment_submit/**
-	go generate ./...
-	go build -o $@ github.com/eternal-flame-ad/yumechi.jp/$(firstword $^)
+	cd functions/ && \
+		go build -o $@ github.com/eternal-flame-ad/yumechi.jp/$(firstword $^)
 
 functions: $(FUNCTIONS)
 
@@ -39,12 +36,10 @@ build-dev: download
 
 build: download functions
 	rm -rf public/** || true
-	@if [ "${URL}" = "" ]; then \
-		cp config.toml _build_config.toml; \
-	else \
-		sed 's/yumechi.jp/$(URL:https://%=%)/g' config.toml > _build_config.toml; \
+	if [ "${URL}" != "" ]; then \
+		sed -i 's/yumechi.jp/$(URL:https://%=%)/g' config/_default/config.toml ; \
 	fi
-	$(value HUGO) --config _build_config.toml --minify
+	$(value HUGO) --minify
 
 clean:
 	rm -rf functions/_deploy/** || true

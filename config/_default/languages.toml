@@ -1,0 +1,8 @@
+# Uncomment this file to enable multilanguage site support
+
+[en]
+contentDir = "content/en"
+languageName = "English"
+languagedirection = "ltr"
+title = "Yumechi"
+weight = 1

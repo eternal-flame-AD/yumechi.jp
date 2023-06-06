@@ -1,2 +1,5 @@
+public
+resources
+
 _build_config.toml
 *.lock
