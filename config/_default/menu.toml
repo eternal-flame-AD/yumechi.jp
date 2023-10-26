@@ -26,7 +26,7 @@ icon = "archives"
 [[main]]
 identifier = "UnitDC"
 name = "UnitDC"
-url = "https://yumechi.jp/unitdc/"
+url = "https://eternal-flame-ad.github.io/unitdc-rs/"
 weight = 20
 [main.params]
 icon = "hash"
