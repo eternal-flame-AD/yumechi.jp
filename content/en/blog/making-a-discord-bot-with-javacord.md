@@ -6,7 +6,6 @@ categories: ["Technical"]
 tags: ["Technical", "Tutorial", "Java", "Discord"]
 hidden: false
 comments: true
-draft: true
 ---
 
 ## Registering a Discord Bot
