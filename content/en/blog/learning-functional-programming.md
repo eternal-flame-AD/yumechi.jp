@@ -255,8 +255,6 @@ features of functional programming used in the code.
 
 <div>
 
-<div>
-
 ``` hs
 import System.CPUTime (getCPUTime)
 
@@ -358,6 +356,77 @@ main = do
 
 </div>
 
+### Just to be Fair
+
+Just to be fair to haskell we use another GC-ed language (Kotlin/JVM) as
+control.
+
+<div>
+
+``` kotlin
+import java.math.BigInteger
+
+fun factorial(n: Long) : BigInteger {
+    return (1..n).fold(BigInteger.ONE) 
+        { acc, i -> acc * BigInteger.valueOf(i.toLong()) }
+}
+
+fun mCoef(ks: Array<Long>): BigInteger {
+    val n = ks.sum()
+    val num = factorial(n)
+    val den = ks.fold(BigInteger.ONE) { acc, ki -> acc * factorial(ki) }
+    return num / den
+}
+
+fun bCoef(n: Long, k: Long): BigInteger {
+    return mCoef(arrayOf(n - k, k))
+}
+
+fun makeRas(a: Long, b:Long): Sequence<Array<Long>> {
+    fun makeRasInner(rem_items: Long, rem_sum: Long, current: Array<Long>) : Sequence<Array<Long>> {
+        return sequence {
+            if (rem_items == 0L) {
+                if (rem_sum == 0L) {
+                    yield(current)
+                }
+            } else {
+                for (i in 0..rem_sum) {
+                    val new_current = current.toMutableList()
+                    new_current.add(i)
+                    yieldAll(makeRasInner(rem_items - 1, rem_sum - i, new_current.toTypedArray()))
+                }
+            }
+        }
+    }
+
+    return makeRasInner(a, b, arrayOf())
+}
+
+fun sim(a: Long, b:Long): Pair<BigInteger, BigInteger> {
+    fun lhsSingleItem(ras: Array<Long>) : BigInteger {
+        return ras.fold(BigInteger.ONE) { acc, ki -> acc * bCoef(b, ki) }
+    }
+    
+    val lhs = makeRas(a, b).map { lhsSingleItem(it) }.fold(BigInteger.ZERO) { acc, i -> acc + i }
+    val rhs = bCoef(a * b, b)
+    return Pair(lhs, rhs)
+}
+
+fun main() {
+    val start = System.currentTimeMillis()
+    for (a in 1..10) {
+        for (b in 1..10) {
+            val (lhs, rhs) = sim(a.toLong(), b.toLong())
+            if (lhs != rhs) {
+                throw Exception("Error: $a, $b, $lhs, $rhs")
+            }
+        }
+    }
+    val end = System.currentTimeMillis()
+    println("true,${end - start}")
+}
+```
+
 </div>
 
 ## Performance
@@ -396,8 +465,8 @@ plot_grid(p1, p2, ncol = 1)
 
 ![](/img/20230223-rust-haskell-compare.svg)
 
-It seems that haskell is significantly more concise but also
-significantly slower than the rust solutions. It seems that Haskell code
-are notoriously hard to optimize and maybe GHC applies fewer
-optimizations than rustc.
+It seems that haskell is significantly more concise and comparable to
+Kotlin/JVM in terms of performance. Non GC-ed languages like rust are
+significantly faster than both GC-ed languages.
+
 
