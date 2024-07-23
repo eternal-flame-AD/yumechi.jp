@@ -344,6 +344,32 @@ fn main() {
 
 Here `get` takes the memory of the variable contained in `x`, so `x` is no longer usable after `get` is called, thus once this function is called, `x` is destroyed, and `get` is no longer usable because there is no `x` to take the memory from.
 
+C++ closures cannot be specified as "once-only". This makes double-free possible:
+
+```cpp
+std::function<void()> download_something()
+{
+    auto buf = new std::vector<char>();
+
+    return [buf]()
+    {
+        std::copy("Hello, World!", "Hello, World!" + 13, std::back_inserter(*buf));
+        std::cout << std::string(buf->begin(), buf->end()) << std::endl;
+        delete buf;
+    };
+}
+
+int main()
+{
+    auto doit = download_something();
+
+    doit(); // "Hello, World!"
+    doit(); // Address 0x4e4c080 is 0 bytes inside a block of size 24 free'd
+
+    return 0;
+}
+```
+
 `FnOnce` is a superset of `FnMut`.
 
 # On the Topic of Variance
