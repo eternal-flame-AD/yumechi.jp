@@ -182,11 +182,42 @@ However, things get more complicated when you start capturing variables outside 
 fn main() {
     let x = 5;
     let f: &dyn Fn() -> i32 = &|| x + 1;
+    println!("{}", x); // 5
     println!("{}", f()); // 6
 }
 ```
 
-Since this function cannot mutate any captured variables, it can be passed to and called anywhere, anytime, and as many times as you want.
+Since this function cannot mutate any captured variables, it can be passed to and called anywhere, anytime, and as many times as you want (as long as the captured variables are still valid).
+
+Side note: If you want to capture a variable by value, you can use the `move` keyword, however this invalidates the original variable:
+
+```rust
+fn main() {
+    let x = Box::new(5); // Use a heap-allocated variable so the value is not simply copied
+    let f: &dyn Fn() -> i32 = &move || *x + 1;
+    println!("{}", x); // Error
+    println!("{}", f()); // 6
+}
+```
+```
+error[E0382]: borrow of moved value: `x`
+ --> test.rs:4:20
+  |
+2 |     let x = Box::new(5);
+  |         - move occurs because `x` has type `Box<i32>`, which does not implement the `Copy` trait
+3 |     let f: &dyn Fn() -> i32 = &move || *x + 1;
+  |                                ------- -- variable moved due to use in closure
+  |                                |
+  |                                value moved into closure here
+4 |     println!("{}", x);
+  |                    ^ value borrowed here after move
+  |
+  = note: this error originates in the macro `$crate::format_args_nl` which comes from the expansion of the macro `println` (in Nightly builds, run with -Z macro-backtrace for more info)
+
+error: aborting due to 1 previous error
+
+For more information about this error, try `rustc --explain E0382`.
+```
 
 ### `FnMut`
 
@@ -222,6 +253,8 @@ Here `get` takes the memory of the variable contained in `x`, so `x` is no longe
 `FnOnce` is a superset of `FnMut`.
 
 # On the Topic of Variance
+
+Variance is a relationship between types that describes how subtypes and supertypes can be used in place of each other. There are three kinds of variance:
 
 ## Covariance
 
@@ -275,7 +308,7 @@ int main()
 
 ## Contravariance
 
-However this actually relationship get's inverted when we start looking at function traits. 
+However this relationship actually get's inverted when we start looking at function traits. 
 Let's look at the following code:
 
 ```rust
@@ -361,21 +394,70 @@ Invariance is the simplest concept: something that is invariant only accepts the
 This is most commonly seen where a type needed to be both covariant and contravariant.
 
 ```rust
-fn find<'a>(mut input: &'a str, target: u8) -> Option<&'a u8> {
-    input.as_bytes().iter().find(|&&x| x == target)
+fn outer_find<'a>(x: &'a str) -> Option<&'a u8> {
+    let correct_inner_find = |x: &'a str| -> Option<&'a u8> {
+        for c in x.as_bytes() {
+            if *c == b'h' {
+                return Some(c);
+            }
+        }
+
+        None
+    };
+    let too_strict_inner_find = |x: &str| -> Option<&u8> {
+        for c in x.as_bytes() {
+            if *c == b'h' {
+                return Some(c);
+            }
+        }
+
+        None
+    };
+    let too_lax_inner_find = |mut x: &'a str| -> Option<&'static u8> {
+        x = "another string";
+        for c in x.as_bytes() {
+            if *c == b'h' {
+                return Some(c);
+            }
+        }
+
+        None
+    };
+
+    return correct_inner_find(x);
+    return too_strict_inner_find(x);
+    return too_lax_inner_find(x);
 }
 
 fn main() {
-    let input = String::from("Goodbye, world!");
-    let target = b'o';
+    let s = "hello";
 
-    let result = find(&input, target);
-
-    println!("{:?}", result);
+    let result = outer_find(s);
 }
 ```
+```
+error: lifetime may not live long enough
+  --> test.rs:14:24
+   |
+11 |     let too_strict_inner_find = |x: &str| -> Option<&u8> {
+   |                                     -               - let's call the lifetime of this reference `'2`
+   |                                     |
+   |                                     let's call the lifetime of this reference `'1`
+...
+14 |                 return Some(c);
+   |                        ^^^^^^^ returning this value requires that `'1` must outlive `'2`
 
-Here, the lifetime of `input` is `'a`, and the lifetime of the reference returned by `find` is also `'a`. This is invariance in action: the lifetime of the reference returned by `find` is the same as the lifetime of `input`, so the reference returned by `find` must be exactly the same lifetime as the reference passed to `find`.
+error: lifetime may not live long enough
+  --> test.rs:24:24
+   |
+1  | fn outer_find<'a>(x: &'a str) -> Option<&'a u8> {
+   |               -- lifetime `'a` defined here
+...
+24 |                 return Some(c);
+   |                        ^^^^^^^ returning this value requires that `'a` must outlive `'static`
+```
+
+Here, any closure that returns a reference that is not exactly the same lifetime as the input reference will not compile. This is invariance in action: the `x` in `outer_fin` is both covariant and contravariant with respect to the `'a` lifetime, thus it can only return a reference that is exactly the same lifetime as the input reference.
 
 In C++, this can be demonstrated with the following code:
 
@@ -413,6 +495,20 @@ void invariant()
     SubSubClass subsub;
     subsub = take_subclass(subsub);
 }
+```
+```
+test.cxx: In lambda function:
+test.cxx:22:16: error: invalid ‘static_cast’ from type ‘SuperClass’ to type ‘const SubClass&’
+   22 |         return static_cast<const SubClass &>(take_superclass(sub));
+      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+test.cxx: In function ‘void invariant()’:
+test.cxx:26:26: error: no match for call to ‘(const invariant()::<lambda(const SubClass&)>) (SuperClass&)’
+   26 |     super = take_subclass(super);
+      |             ~~~~~~~~~~~~~^~~~~~~
+test.cxx:20:32: note: candidate: ‘invariant()::<lambda(const SubClass&)>’
+   20 |     const auto take_subclass = [&take_superclass](const SubClass &sub)
+      |                                ^
+test.cxx:20:32: note:   no known conversion for argument 1 from ‘SuperClass’ to ‘const SubClass&’
 ```
 
 # Conclusion
