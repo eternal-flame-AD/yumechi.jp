@@ -41,9 +41,9 @@ url = "https://github.com/eternal-flame-AD"
 icon = "brand-github"
 
 [[social]]
-identifier = "twitter"
-name = "Twitter"
-url = "https://twitter.com/eternalflame_AD"
+identifier = "misskey"
+name = "Fediverse/Misskey"
+url = "https://mi.yumechi.jp/@yume"
 
 [social.params]
 icon = "brand-twitter"

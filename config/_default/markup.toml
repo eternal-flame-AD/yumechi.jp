@@ -1,6 +1,14 @@
 # Markdown renderer configuration
-[goldmark.renderer]
-unsafe = false
+[goldmark]
+  [goldmark.renderer]
+    unsafe = false
+  [goldmark.extensions]
+    [goldmark.extensions.passthrough]
+      enable = true
+      [goldmark.extensions.passthrough.delimiters]
+        block = [['\[', '\]'], ['$$', '$$']]
+        inline = [['\(', '\)']]
+
 
 [tableOfContents]
 endLevel = 4
