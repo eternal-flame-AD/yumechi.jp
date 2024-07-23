@@ -1,7 +1,7 @@
 .DEFAULT_GOAL := dev
 
 HUGO=.bin/hugo
-HUGO_VERSION=0.119.0
+HUGO_VERSION=0.129.0
 FUNCTIONS := functions/_deploy/hello
 
 functions/_deploy/hello : functions/src/hello functions/src/hello/**

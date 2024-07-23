@@ -172,7 +172,7 @@ fn main() {
 }
 ```
 
-However, things get more complicated when you start capturing variables outside the closure, and that's where the three subtraits of `Fn` come in:
+However, things get more complicated when you start capturing variables outside the closure, and Rust need to know the kind of operations the closure will do to the captured variables, and that's where the three subtraits of `Fn` come in:
 
 ### `Fn`
 
@@ -188,6 +188,8 @@ fn main() {
 ```
 
 Since this function cannot mutate any captured variables, it can be passed to and called anywhere, anytime, and as many times as you want (as long as the captured variables are still valid).
+
+In C++, all lambdas are treated as `Fn` closures, so you can pass them around and call them as many times as you want without any restrictions.
 
 Side note: If you want to capture a variable by value, you can use the `move` keyword, however this invalidates the original variable:
 
@@ -233,6 +235,98 @@ fn main() {
 ```
 
 Note that `f` is declared as mutable, this restricts the shared use of `f`. This is because since `f` can mutate captured reference `x`, it is no longer safe to call `f` at the same time at multiple places: one caller needs to "finish" with `f` before another caller can use `f`.
+
+The commonly demonstrated "counter" example is a good example of `FnMut`:
+
+```rust
+fn make_counter() -> impl FnMut() -> i32 {
+    let mut count = 0;
+    move || {
+        count += 1;
+        count
+    }
+}
+
+fn main() {
+    let mut counter = make_counter();
+    println!("{}", counter()); // 1
+    println!("{}", counter()); // 2
+    println!("{}", counter()); // 3
+}
+```
+
+Note that the `count` variable is declared as a local variable, but it becomes "owned" by the closure, so it's memory is not freed when `make_counter` returns.
+
+Under the hood, this closure actually gets "pulled out" from `make_counter` and `count` becomes part of the stack frame for `main`.
+
+```asm
+example::make_counter:
+ mov    DWORD PTR [rsp-0x4],0x0
+ mov    eax,DWORD PTR [rsp-0x4]
+ ret
+ nop    DWORD PTR [rax]
+
+example::make_counter::{{closure}}:
+ sub    rsp,0x18
+ mov    QWORD PTR [rsp+0x8],rdi
+ mov    eax,DWORD PTR [rdi]
+ inc    eax
+ <...>
+
+main:
+
+ <...>
+ lea    rdi,[rsp+0xc]
+ call   8720 <example::make_counter::{{closure}}>
+ <...>
+```
+
+The same thing is not possible in C++, some correct and incorrect alternatives are:
+
+```cpp
+std::function<int()> invalid_make_counter()
+{
+    // incorrect
+    int count = 0;
+    return [&count]()
+    { return count++; };
+}
+
+std::function<int()> smart_counter()
+{
+    // correct but wasteful
+    auto count = std::make_shared<int>(0);
+    return [count]()
+    {
+        return (*count)++;
+    };
+}
+
+struct ManualCounter
+{
+    int count = 0;
+    int operator()()
+    {
+        return count++;
+    }
+};
+
+std::function<int()> make_counter()
+{
+    auto counter = ManualCounter{};
+    return counter;
+}
+
+std::function<int()> leaky_counter()
+{
+    // incorrect
+    int *count = new int{0};
+    return [count]()
+    {
+        return (*count)++;
+    };
+}
+```
 
 `FnMut` is a superset of `Fn`.
 
