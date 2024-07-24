@@ -172,7 +172,7 @@ fn main() {
 }
 ```
 
-However, things get more complicated when you start capturing variables outside the closure, and Rust need to know the kind of operations the closure will do to the captured variables, and that's where the three subtraits of `Fn` come in:
+However, things get more complicated when you start capturing variables outside the closure, and Rust needs to know the kind of operations the closure will do to the captured variables, and that's where the three subtraits of `Fn` come in:
 
 ### `Fn`
 
@@ -255,7 +255,7 @@ fn main() {
 }
 ```
 
-Note that the `count` variable is declared as a local variable, but it becomes "owned" by the closure, so it's memory is not freed when `make_counter` returns.
+Note that the `count` variable is declared as a local variable, but it becomes "owned" by the closure, so its memory is not freed when `make_counter` returns.
 
 Under the hood, this closure actually gets "pulled out" from `make_counter` and `count` becomes part of the stack frame for `main`.
 
@@ -342,7 +342,7 @@ fn main() {
 }
 ```
 
-Here `get` takes the memory of the variable contained in `x`, so `x` is no longer usable after `get` is called, thus once this function is called, `x` is destroyed, and `get` is no longer usable because there is no `x` to take the memory from.
+Here `get` takes the memory of the variable contained in `x`, so `x` is no longer usable after `get` is called, thus once this function is called, `x` is destroyed, and consequently `get` also becomes invalid because there is no `x` to take the memory from.
 
 C++ closures cannot be specified as "once-only". This makes double-free possible:
 
@@ -451,7 +451,7 @@ fn main() {
 }
 ```
 
-This code compiles, rustc infers that since `static_find` gets a static reference, the reference must be valid for the lifetime of `equals`, in Rust speak we say that the `x` in `equals` is contravariant with respect to the `x` in `static_find`: the `x` in `static_find` is a **subtype** of the `x` in `equals`, so it can be passed to `equals`.
+This code compiles, rustc infers that since `static_find` gets a static reference, the reference must be valid for the lifetime of `equals`, in Rust speak we say that the lifetime parameter in `equals` is contravariant with respect to the lifetime parameter in `static_find`: the `x` in `static_find` is a **subtype** of the `x` in `equals`, so it can be passed to `equals`.
 
 The same can be observed in C++ as well:
 
@@ -594,42 +594,45 @@ struct SubSubClass : public SubClass
 {
 };
 
-void invariant()
+int main()
 {
-    const auto take_superclass = [](const SuperClass &super)
+    const auto invariant = [](const SubClass &subClass) -> const SubClass &
     {
-        return super;
+        const auto correct = [](const SubClass &subClass) -> const SubClass &
+        {
+            return subClass;
+        };
+        const auto too_lax = [](const SuperClass &superClass) -> const SuperClass &
+        {
+            return superClass;
+        };
+        const auto too_strict = [](const SubSubClass &subSubClass) -> const SubSubClass &
+        {
+            return subSubClass;
+        };
+
+        return correct(subClass);
+        return too_lax(subClass);
+        return too_strict(subClass);
     };
 
-    const auto take_subclass = [&take_superclass](const SubClass &sub)
-    {
-        return static_cast<const SubClass &>(take_superclass(sub));
-    };
+    SubClass subClass;
+    const auto &ret = invariant(subClass);
 
-    SuperClass super;
-    super = take_subclass(super);
-
-    SubClass sub;
-    sub = take_subclass(sub);
-
-    SubSubClass subsub;
-    subsub = take_subclass(subsub);
+    return 0;
 }
 ```
 ```
 test.cxx: In lambda function:
-test.cxx:22:16: error: invalid ‘static_cast’ from type ‘SuperClass’ to type ‘const SubClass&’
-   22 |         return static_cast<const SubClass &>(take_superclass(sub));
-      |                ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-test.cxx: In function ‘void invariant()’:
-test.cxx:26:26: error: no match for call to ‘(const invariant()::<lambda(const SubClass&)>) (SuperClass&)’
-   26 |     super = take_subclass(super);
-      |             ~~~~~~~~~~~~~^~~~~~~
-test.cxx:20:32: note: candidate: ‘invariant()::<lambda(const SubClass&)>’
-   20 |     const auto take_subclass = [&take_superclass](const SubClass &sub)
-      |                                ^
-test.cxx:20:32: note:   no known conversion for argument 1 from ‘SuperClass’ to ‘const SubClass&’
+test.cxx:33:23: error: invalid initialization of reference of type ‘const SubClass&’ from expression of type ‘const SuperClass’
+   33 |         return too_lax(subClass);
+      |                ~~~~~~~^~~~~~~~~~
+test.cxx:34:26: error: no match for call to ‘(const main()::<lambda(const SubClass&)>::<lambda(const SubSubClass&)>) (const SubClass&)’
+   34 |         return too_strict(subClass);
+      |                ~~~~~~~~~~^~~~~~~~~~
 ```
+
+You can manually `static_cast` the `SuperClass` reference to a `SubClass` reference, but the compiler will not do it for you.
 
 # Conclusion
 
