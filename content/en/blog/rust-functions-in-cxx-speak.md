@@ -632,7 +632,7 @@ test.cxx:34:26: error: no match for call to ‘(const main()::<lambda(const SubC
       |                ~~~~~~~~~~^~~~~~~~~~
 ```
 
-You can manually `static_cast` the `SuperClass` reference to a `SubClass` reference, but the compiler will not do it for you.
+You can manually `static_cast` the `SuperClass` reference to a `SubClass` reference, but it is an unchecked cast and the compiler won't do it for you.
 
 # Conclusion
 
