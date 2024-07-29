@@ -66,5 +66,9 @@
 [[redirects]]
   from = "/ja/*"
   to = "/ja/404.html"
-  statis = 404
+  status = 404
 
+[[redirects]]
+  from = "*"
+  to = "/en/:splat"
+  status = 404
