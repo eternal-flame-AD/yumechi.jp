@@ -12,7 +12,7 @@ links:
   - title: Yumechi | ゆめち
     description: いい夢を🌙
     website: https://yumechi.jp/
-    image: https://yumechi.jp/img/avatar.png
+    image: https://yumechi.jp/img/avatar.jpg
 ---
 
 My friends‘ websites. PR or email to to exchange links!
@@ -25,5 +25,5 @@ My info:
 title: Yumechi | ゆめち
 description: いい夢を🌙
 website: https://yumechi.jp/
-image: https://yumechi.jp/img/avatar.png
+image: https://yumechi.jp/img/avatar.jpg
 ```
