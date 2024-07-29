@@ -24,6 +24,14 @@ weight = 15
 icon = "archives"
 
 [[main]]
+identifier = "friends"
+name = "Friends"
+url = "/friends/"
+weight = 12
+[main.params]
+icon = "user"
+
+[[main]]
 identifier = "UnitDC"
 name = "UnitDC"
 url = "https://eternal-flame-ad.github.io/unitdc-rs/"
