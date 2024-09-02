@@ -450,6 +450,89 @@ Recall that `seq` is a function that forces the evaluation of the first argument
 
 Here, we get a function that, when `a` is evaluated, writes out an intermediate step to a file handle. This is very useful when you are writing lazy algorithms and you want to see the intermediate steps that only involve computations that are actually done, and in order of when they are needed! In short, it produces a step-by-step trace of the computation that looks like a human would write it.
 
+Let's see it in action! (note I changed `hEmitStep` a bit by `seq`ing the result before putting it to `hPutStrLn` to avoid the `--> ` from being printed before the actual value is computed (which may be a problem if the actual value itself prints more intermediate steps)):
+
+```haskell
+{-# LANGUAGE RankNTypes #-}
+
+import Control.Monad (replicateM_)
+import System.IO (Handle, hPutStrLn, openFile, stderr)
+import System.IO.Unsafe (unsafePerformIO)
+
+primes :: EmitFunc -> [Int]
+primes emitStep = sieve [2 ..]
+  where
+    sieve (p : xs) =
+        p `emitStep` (const $ show p ++ " must be prime!")
+            : sieve
+                [ x `emitStep` (const $ show x ++ " is not a multiple of " ++ show p)
+                | x <- xs
+                , (x `mod` p)
+                    `emitStep` (\rem -> show x ++ " % " ++ show p ++ " = " ++ show rem)
+                    /= 0
+                ]
+
+type EmitFunc = forall a. a -> (a -> String) -> a
+
+hEmitStep :: Maybe Handle -> EmitFunc
+hEmitStep h a f = case h of
+    Nothing -> a
+    Just h' -> unsafePerformIO (hPutStrLn h' $ f a `seq` "--> " ++ f a) `seq` a
+
+main :: IO ()
+main = do
+    mapM_ (\prime -> putStrLn $ prime `seq` "Found prime: " ++ show prime) $
+        take 5 $
+            primes (hEmitStep (Just stderr))
+
+```
+
+This produces:
+
+```
+--> 2 must be prime!
+Found prime: 2
+--> 3 % 2 = 1
+--> 3 is not a multiple of 2
+--> 3 must be prime!
+Found prime: 3
+--> 4 % 2 = 0
+--> 5 % 2 = 1
+--> 5 is not a multiple of 2
+--> 5 % 3 = 2
+--> 5 is not a multiple of 3
+--> 5 must be prime!
+Found prime: 5
+--> 6 % 2 = 0
+--> 7 % 2 = 1
+--> 7 is not a multiple of 2
+--> 7 % 3 = 1
+--> 7 is not a multiple of 3
+--> 7 % 5 = 2
+--> 7 is not a multiple of 5
+--> 7 must be prime!
+Found prime: 7
+--> 8 % 2 = 0
+--> 9 % 2 = 1
+--> 9 is not a multiple of 2
+--> 9 % 3 = 0
+--> 10 % 2 = 0
+--> 11 % 2 = 1
+--> 11 is not a multiple of 2
+--> 11 % 3 = 2
+--> 11 is not a multiple of 3
+--> 11 % 5 = 1
+--> 11 is not a multiple of 5
+--> 11 % 7 = 4
+--> 11 is not a multiple of 7
+--> 11 must be prime!
+Found prime: 11
+```
+
+Nice! I only said to emit step when this value is needed, I never need to explicitly say when to emit the step, lazy functional programming does it for me! Additionally, if you use the values multiple times, it won't spam the output with the same step, as the value is memoized (in a reasonable way of course).
+
+The same code would be very annoying to write in an imperative language, as you would need to explicitly write out the steps and the conditions to emit the steps, not to mention simulating infinite lists with iterators or callbacks. Additionally, an imperative implementation that does not involve emitting steps would look very different from the one that does, inside out. However here we only need to delete the `emitStep` calls and the program still works, just like you would write it without emitting steps.
+
 ## Conclusion
 
 In general, Haskell models non-pure computations as compositions of monads, and the program entry point is modeled as a single non-pure monad `IO ()`. This way, everything that seems to be impure in Haskell code is simply transforming small impure computations into larger impure computations, _in a pure way_.
