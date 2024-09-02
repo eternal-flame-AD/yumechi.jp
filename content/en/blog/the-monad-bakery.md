@@ -531,7 +531,56 @@ Found prime: 11
 
 Nice! I only said to emit step when this value is needed, I never need to explicitly say when to emit the step, lazy functional programming does it for me! Additionally, if you use the values multiple times, it won't spam the output with the same step, as the value is memoized (in a reasonable way of course).
 
-The same code would be very annoying to write in an imperative language, as you would need to explicitly write out the steps and the conditions to emit the steps, not to mention simulating infinite lists with iterators or callbacks. Additionally, an imperative implementation that does not involve emitting steps would look very different from the one that does, inside out. However here we only need to delete the `emitStep` calls and the program still works, just like you would write it without emitting steps.
+The same code would be very annoying to write in an imperative language, as you would need to explicitly write out the steps and the conditions to emit the steps, not to mention simulating infinite lists with iterators or callbacks. Additionally, an imperative implementation that does not involve emitting steps would look very different from the one that does, inside out. However here we only need to delete the `emitStep` calls and the program still works, just like you would write it without emitting steps: if you ask ChatGPT to write a prime program, it would look exactly like this, but without the `emitStep` calls!
+
+```
+write a terse infinite list of primes in Haskell with the sieve of eratoth  
+algorithm, prefer conciseness over performance please.                     
+                                                                            
+Sure, here is a simple implementation:                                      
+                                                                            
+primes = sieve [2..]                                                      
+    where sieve (p:xs) = p : sieve [x|x <- xs, x `mod` p > 0]
+
+```
+
+If you ask it to do it in Python, you get this:
+
+```
+write a terse infinite generator of primes in Python with the sieve of      
+eratoth algorithm, perfer conciseness over performance please.              
+                                                                            
+Here is a concise Python generator function that implements the Sieve of    
+Eratoth algorithm to generate an infinite sequence of prime numbers:        
+                                                                            
+def primes():                                                             
+    D = {}                                                                
+    q = 2                                                                 
+    while True:                                                           
+        if q not in D:                                                    
+            yield q                                                       
+            D[q*q] = [q]                                                  
+        else:                                                             
+            for p in D[q]:                                                
+                D.setdefault(p+q, []).append(p)                           
+            del D[q]                                                      
+            q += 1 
+```
+
+It is really hard to make this code emit the correct steps, you might think that you can just add a `print()` after `D.setdefault()`, but no, you emit numbers before the previous prime numbers are emitted. This would print:
+
+```
+2
+3
+Eliminating 6, factors are [2]
+5
+Eliminating 8, factors are [2]
+7
+Eliminating 10, factors are [2]
+Eliminating 12, factors are [3]
+Eliminating 12, factors are [3, 2]
+11
+```
 
 ## Conclusion
 
