@@ -425,6 +425,31 @@ bakery> inv
 Inventory {flour = 3500, yeast = 470}
 ```
 
+## Extras
+
+### Shortcuts to IO monad
+
+Sometimes you don't really care about how an IO value is composed into your big `main :: IO ()`, and you just want to use the result lazily as a value. You can use the `unsafePerformIO` function to do this, but be careful as it can break referential transparency, as there is no guarantee that when the value is used you get a memoized value back or a new computation is done.
+
+Note that it is not a very good idea to use `unsafePerformIO` as a kind of "lazy global variable" in your program, as it may be ran multiple times, instead compute it first and compose it with the rest of your program.
+
+However one use case I use a lot in my study is to use it to emit intermediate steps in a computation, for example:
+
+```haskell
+{-# LANGUAGE RankNTypes #-}
+
+type EmitFunc = forall a. a -> (a -> String) -> a
+
+hEmitStep :: Maybe Handle -> EmitFunc
+hEmitStep h a f = case h of
+  Nothing -> a
+  Just h' -> unsafePerformIO (hPutStrLn h' $ " --> " ++ f a) `seq` a
+```
+
+Recall that `seq` is a function that forces the evaluation of the first argument before returning the second argument, _when the second argument is needed_.
+
+Here, we get a function that, when `a` is evaluated, writes out an intermediate step to a file handle. This is very useful when you are writing lazy algorithms and you want to see the intermediate steps that only involve computations that are actually done, and in order of when they are needed! In short, it produces a step-by-step trace of the computation that looks like a human would write it.
+
 ## Conclusion
 
 In general, Haskell models non-pure computations as compositions of monads, and the program entry point is modeled as a single non-pure monad `IO ()`. This way, everything that seems to be impure in Haskell code is simply transforming small impure computations into larger impure computations, _in a pure way_.
