@@ -356,8 +356,6 @@ data Inventory = Inventory
 emptyInventory :: Inventory
 emptyInventory = Inventory 0 0
 
-type Bakery = State Inventory
-
 type BakeryT m = StateT Inventory m
 
 buyFlour :: BakeryT IO ()
@@ -424,6 +422,24 @@ Baking bread
 bakery> inv
 Inventory {flour = 3500, yeast = 470}
 ```
+
+Some more type wizardry: if you suddenly decide some functions only need to check the inventory but not use IO, you can use the `Identity` monad, which is a monad that does nothing but store a value:
+
+```haskell
+import Control.Monad.Identity
+
+checkInventory :: BakeryT Identity Inventory
+checkInventory = get
+```
+
+When you want to compose this into any other `BakeryT m` monad, you can use this `uplift` function:
+
+```haskell
+uplift :: (Monad m) => StateT s Identity a -> StateT s m a
+uplift = StateT . (pure .) . runState
+```
+
+`runState` returns the new state and the value, `(pure .)` lifts the value into the `m` monad, and `StateT` lifts the function into the `StateT` monad transformer, neat!
 
 ## Extras
 
