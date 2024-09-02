@@ -189,7 +189,8 @@ Now we see that everything `do` notation does can be done purely functionally, t
 - Apply the result of a computation to a function partially applied to the result of another computation: `<*>`
 - Binding the result of a computation to another computation: `>>=`
 
-Note that I'm not saying `do` notation is bad, it is a very useful tool for writing code that involve a lot of composing monadic values in a natural and readable way. However, for simple tasks like the above, it is better to use the unsugared version, which is more terse and simpler. Additionally, use `do` notation generously if you expect someone who is not familiar with Haskell to read your code.
+Note that I'm not saying `do` notation is bad, it is a very useful tool for writing code that involve a lot of composing monadic values in a natural and readable way. However, for simple tasks like the above, it is better to use the unsugared version, which is more terse and faster to understand for a peer Haskell programmer.
+However, use `do` notation generously if you expect someone who is not familiar with Haskell to read your code.
 
 The commonly-used helper functions in the `Monad` typeclass are (some of them are only available in the `Control.Monad` module, not the prelude):
 
