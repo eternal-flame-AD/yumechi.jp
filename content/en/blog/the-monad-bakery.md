@@ -289,7 +289,7 @@ This prints:
 [([Take ("flour","500","g"),Take ("water","300","ml"),Take ("yeast","10","g"),Mix ["flour","water","yeast"],Bake ["flour","water","yeast"] ("200","30")],"")]
 ```
 
-Note that these `Parser a`'s are technically values in Haskell but they represent a computation that either produces a value of type `a` or fails, given the context of the input string. This is why `Parser` is a `Monad`.
+Note that these `ReadP a`'s are technically values in Haskell but they represent a computation that either produces a value of type `a` or fails, given the context of the input string. This is why `ReadP` is a `Monad`.
 
 ### State
 
@@ -327,8 +327,6 @@ getFlour amount = do
 Here comes a problem: what if I need to bake a bread and I need both the `IO` and the `State` monad? You can use a _monad transformer_ to combine two monads into one. For example, you can use `StateT` to combine `State` and `IO`, putting it all together:
 
 ```haskell
-import Control.Monad (replicateM)
-import Control.Monad.Identity (Identity (runIdentity))
 import Control.Monad.State
 import System.IO (hFlush, stdout)
 
