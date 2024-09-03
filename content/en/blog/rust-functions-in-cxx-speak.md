@@ -7,7 +7,7 @@ math:
 license: CC BY-SA 4.0
 hidden: false
 comments: true
-categories: ["Technical"]
+categories: ["Technical", "Rust"]
 tags: ["Technical", "Rust", "C++", "Functional"]
 ---
 

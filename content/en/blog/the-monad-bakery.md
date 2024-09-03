@@ -7,7 +7,7 @@ math:
 license: CC BY-SA 4.0
 hidden: false
 comments: true
-categories: ["Technical"]
+categories: ["Technical", "Haskell"]
 tags: ["Technical", "Haskell", "Functional"]
 ---
 
@@ -204,7 +204,7 @@ The commonly-used helper functions in the `Monad` typeclass are (some of them ar
 - `mapM` takes a function that returns a monadic value and applies it to a list of values, then `sequence` the results.
   - `mapM_` is similar to `mapM` but discards the result.
 - `forM` is similar to `mapM` but with the arguments flipped, similarly `forM_` is `mapM_` with the arguments flipped.
-- `foldM` is similar to `foldl` but the folding function returns a monadic value.
+- `foldM` is similar to `foldl` but the folding function rturns a monadic value.
 - `(>>)` is identical to `(*>)`, but only available in the `Monad` typeclass.
 
 ## Generalization of Monads
