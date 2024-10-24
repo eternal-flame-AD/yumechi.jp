@@ -40,6 +40,14 @@ weight = 20
 icon = "hash"
 newtab = true
 
+[[main]]
+identifier = "Social Feed"
+name = "Social Feed"
+url = "/misskey/"
+weight = 25
+[main.params]
+icon = "rss"
+
 [[social]]
 identifier = "github"
 name = "GitHub"
