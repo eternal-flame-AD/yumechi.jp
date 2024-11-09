@@ -71,4 +71,4 @@
 [[redirects]]
   from = "*"
   to = "/en/:splat"
-  status = 404
+  status = 302
