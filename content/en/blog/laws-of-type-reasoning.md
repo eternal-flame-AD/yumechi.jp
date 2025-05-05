@@ -7,7 +7,7 @@ math: true
 license: 
 hidden: false
 comments: true
-draft: false\
+draft: false
 categories: ["Technical", "Type Theory"]
 tags: ["Technical", "Rust", "C++", "Functional", "Generic Programming", "Type Theory"]
 ---
