@@ -24,7 +24,7 @@ Let's post two questions and keep these in mind as we proceed:
 
 > Will adopting C2PA help or harm my ability to reach my audience?
 > 
-> Will the public gain meaningful insights into a creative work, that will influence the public appreciation of that work in a positive way?
+> Will the public gain meaningful insights into a creative work, or a piece of reporting, that will influence the public appreciation of that work in a positive way?
 
 ## Background on C2PA
 
@@ -115,6 +115,25 @@ Also we need to be wary of the pitfall of **resolution of trust issues versus sh
 
 In reality, bias certainly will happen, people under economic hardship will be excluded from this "golden seal" of trust, and it would certainly be explicitly or implicitly devalued from the social media or web presence as a whole if this technology becomes widely adopted.
 
+### What is Trust
+
+One might argue, but C2PA did clarify that it is not trying to find "true" media, but just provides provenance data that may be helpful. More information is better than less information, right? Unfortunately, this plays again into the imperfect nature of human trust, and irrelavant proof can be worse than no proof at all. Here, whether a photo is actually taken by a real camera, or modified by a commercial tool intended for human use, is _not_ relevant to any goal of C2PA.
+
+"Too much crypto" usually refers to using cryptography of excessive strength for a purpose, however, there is a more harmful form of "too much crypto" that is not often discussed, especially in the realm of assertions, attestations and proofs, that is providing proof that is irrelevant to the context.
+
+C2PA did clarify it didn't try to find "true" medias out of fake ones. It is technically correct but it seems to imply an assumption that there is a "more trusted" state when there is not. No proof of image authenticity or tool usage will increase trust in an irrelevant context (authentic art or imagery or nyarrative).
+
+In cryptography a effective proof requires multiple orders of magnitude higher effort than potential gain for an adversary to defeat a system for the proof to be 'secure'. Anything worse than that, that proof generally is as good as nothing, possession of that proof is disregarded in any evaluation of trust. **This system is trivially defeated by an adversary for the purpose of combating misinformation or asserting human artistic authenticity**, regardless of the strength of the crypto system itself, they just need to add misleading provenyance data or put the image in a larger misleading context and highlight the C2PA proof.
+
+What makes it harmful is a machine can be programmed to disregard a signyal presented to them completely, humans are heuristic machines and cannot regardless of how hard they try, they will:
+
+- over-compensate like from not trusted to distrust: "why are you pushing C2PA? I refuse to invest a cent into the ecosystem and I am cancelling my subscription" or
+- under-compensate like from not trusted to more trusted: "this articles doesn't sound right.. but it has C2PA from a reputable news agency so I guess it is more true than that article"
+
+#### Bank Fraud Example
+
+To put it into a concrete example, a fraudster cashing a fake check usually produces excessive proof, like multiple forms of ID, a long story to explain to the clerk how they obtained the check, etc. Even if none of these assertions provide any real proof on the legitimacy of the check, a naive bank clerk is likely to reduce their suspicion. Similarly, a misinformation campaign can also use C2PA against itself, by providing a "legitimate" and "waterproof" attestation on the legitimacy of the asset, to hide the actual bias of the content. 
+
 ## Authenticity and Fine Art
 
 It is apparent that many adopters of C2PA does not truly use it to combat misinformation, but to use it 'off-label' to assert some sort of authenticity to assets produced by artists in their ecosystem. This goes much less into the "fact-checking" aspect but well into the realm of **appreciation of fine art**, and creates critical concern over C2PA's efficacy in that regard.
@@ -163,4 +182,4 @@ While C2PA is a voluntary standard, we must acknowledge that any 'voluntary' sta
 
 Simply objecting to C2PA is not enough in counteracting the potential devaluation of your work, and systematic shift in the public perception of values of creative work even if they choose not to adopt it.
 
-I encourage creators to take a step back and evaluate holistically the real impact of C2PA or industry variants. 
+I encourage creators to take a step back and evaluate holistically the real impact of C2PA or industry variants. In my opinion, the insights offered in C2PA (tool usage, creator identity) are superficial, potentially misleading, unlikely to be accessed or understood by many, and irrelevant to the deeper appreciation of creative intent or journalistic truth. 
