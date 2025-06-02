@@ -8,7 +8,8 @@ license:
 math: true
 hidden: false
 comments: true
-categories: ["Technical", "Security", "Misskey"]
+categories: ["Technical", "Security", "Risk Management"]
+tags: ["Technical", "Security", "Misskey", "Risk Management"]
 ---
 
 ## Introduction

@@ -1,8 +1,8 @@
 ---
 title: "Creating an Auditable Account Access System for Temporary Emergencies"
 date: 2023-05-07T14:01:18-05:00
-categories: ["Technical"]
-tags: ["Technical", "Security", "Vault", "Personal"]
+categories: ["Technical", "Security", "Risk Management"]
+tags: ["Technical", "Security", "Vault", "Personal", "Risk Management"]
 ---
 
 I found myself in a situation where I have temporary emergencies that I would like my trusted friends to be have audited access to a subset of my accounts with a prescribed short wait period so I could still stay on top of my affairs.
