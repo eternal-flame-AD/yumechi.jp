@@ -21,7 +21,8 @@
     X-Frame-Options = "SAMEORIGIN"
     X-XSS-Protection = "1; mode=block"
     Strict-Transport-Security = "max-age=63072000; includeSubDomains; preload"
-    # Content-Security-Policy = "frame-ancestors https://www.facebook.com"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), interest-cohort=()"
+    Content-Security-Policy = "default-src 'self'; object-src 'none'; base-uri 'none'; upgrade-insecure-requests"
 
     # Multi-value headers are expressed with multi-line strings.
 	# cache-control = '''
