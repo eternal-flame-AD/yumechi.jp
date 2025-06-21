@@ -18,7 +18,7 @@ function redirectToSearch(target, keyword) {
         // GENERAL
         case "ddg":
         case "duckduckgo":
-            window.location = "https://html.duckduckgo.com/?q=" + encodeURIComponent(keyword)
+            window.location = "https://html.duckduckgo.com/html?q=" + encodeURIComponent(keyword)
             break
         case "g":
         case "google":
