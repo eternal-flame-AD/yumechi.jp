@@ -10,7 +10,7 @@ tags: ["Technical", "Privacy", "Ongoing Work"]
 The line between sites collecting aggregated metrics and active spying by session recording and stitching together the "journey" of a particular user's every click and scroll from impression to conversion is becoming increasingly blurred. The latter form of data collection is extremely invasive as they collect granular, non-aggregated, and almost never properly anonymized data, which can be immediately used to "optimize" the persuasiveness (and ultimately the revenue) of the content by knowing exactly at which point the user is most likely to be persuaded.
 
 While traditionally the frontier of the argument generally hinges on whether users visiting a specific site are "implicitly consenting" to some data points being tracked,
-the introduction of technologies such as [session replay](https://posthog.com/session-replay) and [CDP session stitching](https://github.com/dbt-labs/segment/blob/main/models/sessionization/docs.md) are increasingly getting into the realm of non-consensual tracking.
+the introduction of technologies such as [session replay](https://posthog.com/session-replay) and [CDP session stitching](https://github.com/dbt-labs/segment/blob/main/models/sessionization/docs.md) are increasingly entering the realm of non-consensual tracking.
 
 ## What is "implicit consent" vs "behavioral" analytics?
 
@@ -22,7 +22,7 @@ However, what if the bookstore installed a "recorder" into the book and recorded
 
 While traditional trackers like Google Analytics are considered "bad", "unethical", and "centralized", they are at least transparent about their intent and purpose and give you limited recourse to opt out (you can opt out to the use of your data against yourself but NOT against other users). They provide the shovel (how to collect data) and users some control over how personalized the data collection can be used "against you". However, a new generation of "privacy preserving" trackers and SSPs focus on legal compliance (such as GDPR requiring 'third party' processors to be compliant) however they find their marketing niche to "bypassing tracking blockers" by explicitly documenting and endorsing how to [**bypass "tracking blockers"**](https://plausible.io/docs/proxy/introduction) by using reverse proxies through CDNS (usually these methods are used for bypassing state sponsored censorship, thus typical CNAME cloaking detection will NOT be effective). 
 
-I believe no reasonable person would agree knowing what "tracking blockers" mean (users dissent to tracking) and then advocating you are doing (taking a targeted, active step to bypass these dissenting users) is in any shape or form a tracking practice based on "implicit consent" of the transaction (user visits your website).
+I believe no reasonable person would agree that a vendor knowing what "tracking blockers" mean (users dissent to tracking) and then advocating to their clients to take a targeted, active step to bypass these dissenting users is in any shape or form a tracking practice based on "implicit consent" of the transaction (user visits your website).
 
 It seems like some AdTech and SSPs are trying to exploit the loophole of "privacy" in legal compliance (which generally draws the line between "first party" and "third party" tracking) but completely sidestepping or even in some ways further exploiting users who explicitly dissent to tracking.
 
@@ -34,6 +34,15 @@ However, these companies seem to fail to understand basic principles of statisti
   This is why success stories of "implicit data" are all from large scale companies with the in house expertise and sheer data volume to compensate for these, they want SMBs and individual site owners to be hyped up with all the "implicit data" gold-rush but the only businesses that can realistically profit from it is, the large companies with, by definition, third-party, data analysts. 
 - It's the user's wallet, so the public will eventually catch up to what is happening (first party tracking -> CDP aggregation and stitching -> behavioral data -> more persuasiveness -> more purchases). Even if not everyone have the time and resources to do this, they will still "smell" the difference of heavily "optimized" content and eventually be much more skeptical of the content they are consuming and their true intent.
 
+## The "browser can run scripts and make API requests" argument
+
+Just like any other computer program, having the technical permission at runtime to access a resource on a standardized browser (like installing mutation observers, get the GPU vendor, the user's IP address, etc.), does NOT constitute a legal permission of behavioral or identifying data points to be extracted from such environment and transmitted. 
+
+Some vendors argue "no harm done". I think this is a very weak argument. If I accurately pointed out the battery percentage, operating system, language settings, GPU and OS vendor of a stranger's computer, and then started pitching a product to them (let's say a hairbrush, arguably nothing to do with computers at all), what would they think? Would they be more likely or less likely to purchase the product, or just run for their life?
+
+Additionally trying to detect or circumvent the presence of mitigations (like tracker blockers, or `/proc/self/attr/current` on Linux LSM, or listing the process tree in Windows) without a valid reason is usually enough to be considered malware.
+
+Therefore, I am calling this for what it is from a technical standpoint, a data exfiltration-no euphemisms. It is an **unauthorized data transfer** about the user's computing environment and/or behavior from the user's computer to the vendor's computer, increasingly employing common evasion tools such as CDN cloaking and **encryption/obfuscation** to confuse the custodian of such data (the visitor) of the intent of the transfer. 
 
 ## My stance on this
 
@@ -45,7 +54,7 @@ I think it really crossed the line that I myself might not be persuaded regardle
 
 ## The ruleset
 
-This is an supplementary ruleset for uBlock Origin that I use to block first-party data exfiltration (I am calling it for what it is, no euphemisms). This will break websites, and is a ruleset that you should use only after all other traditional and arguably more selective venues have been enabled. I will update it regularly as I find more patterns.
+This is an supplementary ruleset for uBlock Origin that I use to block first-party data exfiltration. This will break websites, and is a ruleset that you should use only after all other traditional and arguably more selective venues have been enabled. I will update it regularly as I find more patterns.
 
 ```
 # First and proxied third-party tracking firewall
