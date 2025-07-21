@@ -95,8 +95,8 @@ This is an supplementary ruleset for uBlock Origin that I use to block first-par
 ||/cdn-cgi/$method=post|put|patch  # Cloudflare
 ||/cdn-cgi/challenge-platform/*^   # prepend @@ to temporarily allow a challenge
 
-||*/record$method=post|put|patch   # just random ways to say data exfiltration
-||*/record$method=post|put|patch
+||*/record$method=post|put|patch                   # just random ways to say data exfiltration
+
 ||*/event$method=post|put|patch
 ||*/events$method=post|put|patch
 ||*/event/$method=post|put|patch
@@ -114,7 +114,9 @@ This is an supplementary ruleset for uBlock Origin that I use to block first-par
 # Vender specific rules
 
 ||*/array/*^                                      # posthog, interesting name choice there
-
+||*/fs.js*$script                                 # fullstory
+||*/s/settings/*/web^
+||*/record^$method=post|put|patch                 # amplitude
 ||/api/event^$method=post|put|patch               # plausible, posthog API endpoints that officially endorsed CDN cloaking (automatically lose any argument of "privacy 'respect'")
                                                   # this should already be covered in the general rules but if we temp disable that this is more specific guardrail
 ||/api/events^$method=post|put|patch              # doesn't hurt
@@ -133,4 +135,5 @@ This is an supplementary ruleset for uBlock Origin that I use to block first-par
 *$removeparam=cid    # fathom#encodeParameters
 *$removeparam=sid    # strip fathom site ID as well
 *$removeparam=visitor
+*$removeparam=visitorId
 ```
