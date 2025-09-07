@@ -309,7 +309,7 @@ Observe that:
 
 We can simplify the successful condition into $H_0 < 1 \ll (4 * D)$: as the rest of the words do not matter.
 
-Now back-propagate the unused portion of hashes, since $H_1 \cdots H_{15}$ do not matter, feedforward terms for them also do not matter and thus do not need to be saved or computed.
+Now back-propagate the unused portion of hashes, since $H_1 \cdots H_{8}$ do not matter, feedforward terms for them also do not matter and thus do not need to be saved or computed.
 
 Improvement: Saves massive register pressure budget on AVX-512.
 
