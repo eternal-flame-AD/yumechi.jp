@@ -615,10 +615,10 @@ The single-threaded throughput for OpenSSL with SHA-NI support is about 12.94 MH
 
 For us we have single thread:
 
-| Workload                | AVX-512 [log](time.txt) | SHA-NI [log](time_sha-ni.txt) | Chromium SIMD128 [log](time_simd128.txt) |
-| ----------------------- | ----------------------- | ----------------------------- | ---------------------------------------- |
-| SingleBlock/Anubis      | 85.75 MH/s              | 52.19 MH/s                    | 14.74 MH/s                               |
-| Binary nonce (16 bytes) | 97.87 MH/s              | 78.10 MH/s                    | Not Tested                               |
+| Workload                | AVX-512    | SHA-NI     | Chromium SIMD128 |
+| ----------------------- | ---------- | ---------- | ---------------- |
+| SingleBlock/Anubis      | 85.75 MH/s | 62.19 MH/s | 14.74 MH/s       |
+| Binary nonce (16 bytes) | 97.87 MH/s | 78.10 MH/s | Not Tested       |
 
 The throughput on 7950X for Anubis varies between about 100-200kH/s on Chromium and about 20% of that on Firefox, this is corroborated by Anubis's own accounts in their code comments using 7950X3D empirical testing (grep for `7950X3D` in their codebase and [this PR](https://github.com/TecharoHQ/anubis/pull/471)).
 
