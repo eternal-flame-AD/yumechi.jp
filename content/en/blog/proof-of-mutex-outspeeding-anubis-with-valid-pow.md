@@ -299,7 +299,31 @@ Second priority: If you use SIMD, keep the starting part of the search aligned t
 
 Third priority: If there are space for more than 4 digits, push 4 digits of padding digits: allows one more round to be precomputed.
 
-Improvement: Up to 13 out of 64 rounds can be precomputed, although for 128 byte messages only 2 can be precomputed-you can maybe pre-compute one more if you really specialize on that message layout but I want a generic solution so I accepted this little inefficiency.
+Improvement: Up to 13 out of 64 rounds can be precomputed depending on how long the nonce can be stretched out, although for 128 byte messages only 2 can be precomputed-you can maybe pre-compute one more if you really specialize on that message layout but I want a generic solution so I accepted this little inefficiency.
+
+| Salt Len (mod 64) | Rounds Saved | % of total rounds Saved |
+| ----------------- | ------------ | ----------------------- |
+| [0,4)             | 2            | 3.125%                  |
+| [4,8)             | 3            | 4.6875%                 |
+| [8,12)            | 4            | 6.25%                   |
+| [12,16)           | 5            | 7.8125%                 |
+| [16,20)           | 6            | 9.375%                  |
+| [20,24)           | 7            | 10.9375%                |
+| [24,28)           | 8            | 12.5%                   |
+| [28,32)           | 9            | 14.0625%                |
+| [32,36)           | 8            | 12.5%                   |
+| [36,40)           | 9            | 14.0625%                |
+| [40,44)           | 10           | 15.625%                 |
+| [44,48)           | 11           | 17.1875%                |
+| [48,54)           | 13           | 20.3125%                |
+| [54,60)           | 0            | 0%                      |
+| [60,64)           | 1            | 1.5625%                 |
+
+Offsets for common SHA-2 PoW browser captchas for your reference:
+
+- [mCaptcha](https://mcaptcha.org/): variable, depending on server config.
+- [go-away](https://git.gammaspectra.live/git/go-away): 16.
+- Anubis: 0.
 
 Constraints: Anubis server can only accept `int` range nonces, which means 31-bit on 32-bit platforms and 63-bit on 64-bit platforms, however since the vast majority of servers are 64-bit, for a demo we can assume 63-bit nonces will be accepted.
 
@@ -344,7 +368,7 @@ if met_target_test {
 ```
 
 - `_mm512_unpacklo_epi32` "Unpack and interleave 32-bit intergers": so we put B at the least significant position and A at the most significant position (note little-endian, so low address is least significant).
-- `met_target_test` gets lowered into a single `kortest` instruction that sets `ZF` depending on if any of the mask bits are set.
+- `met_target_test` gets lowered into a single `kortest k0, k1` ([`OR Masks and Set  Flags`](https://www.felixcloutier.com/x86/kortestw:kortestb:kortestq:kortestd)) instruction that sets `ZF` depending on if any of the mask bits are set, 1c on most modern CPUs and can be uop-fused into the Jcc after it.
 
 #### Template Instantiation / Monomorphization
 
