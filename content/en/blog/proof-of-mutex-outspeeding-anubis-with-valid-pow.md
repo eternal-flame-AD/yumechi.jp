@@ -234,6 +234,8 @@ Additionally:
 
 SHA-NI is, in contrast, a "horizontal" solution. You put the state horizontally into 128-bit XMM registers, and specialized instructions help you do the math in microcode.
 
+Prevalence: Available on most modern x86 CPUs 2019 and newer and widely available across current cloud instances.
+
 This one has well-known idioms as well that you can source open-source kernels from, generally speaking:
 
 - States are packed into 2 128-bit XMM registers, one holds `ABEF` and the other holds `CDGH`, this takes advantage of the "rolling" nature of rounds and minimizes intermediate layout fixup instructions.
