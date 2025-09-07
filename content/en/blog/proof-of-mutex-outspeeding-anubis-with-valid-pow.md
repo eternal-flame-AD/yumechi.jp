@@ -152,6 +152,8 @@ The state variables are initialized with a constant _initial hash value_. Then, 
 
 Finally, define "update" as: for each block $M_i$, update the state variables using compression function $f$ producing new state variables $\lbrace A, B \cdots H \rbrace$, then perform a "feedforward": element-wise modular addition $H'_0 = A \boxplus H_0, H'_1 = B \boxplus H_1, \cdots, H'_7 = H \boxplus H_7$.
 
+The output is defined as the concatenation of the state variables $H'_0, H'_1, \cdots, H'_7$ in big-endian order. For example, if $H'_0 = 0x01020304, H'_1 = 0x05060708$ then the hash will start with `\x01\x02\x03\x04\x05\x06\x07\x08`.
+
 Notations are informational and while proofread may contain mistakes and ambiguities, if you want to implement it, I recommend copying directly from the standard.
 
 #### Message Schedule
@@ -208,6 +210,7 @@ We can observe these properties which will influence our implementation:
 - If the message has a constant prefix of length $P$ bytes, then the first $\lfloor \frac{P}{4} \rfloor$ rounds can also be precomputed.
 - The first $k$ 32-bit words of the output is only dependent on feedforward terms $H_0, H_1, \cdots, H_{k-1}$, and _independent_ of $H_k$ and beyond.
 - Mutating a message intra-block is cheap, mutating a message inter-block is expensive.
+- A big-endian/hex-lexicographical order of output hash has the same significance order as comparing hash words $H_0, H_1, \cdots, H_7$ directly (in that order of significance).
 
 ### Brief Intro to SIMD and AVX-512
 
