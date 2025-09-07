@@ -6,6 +6,8 @@ image: /img/2025_09_06_anubis-flamegraph.png
 math: true
 hidden: false
 comments: true
+categories: ["Technical", "Performance"]
+tags: ["Technical", "Performance", "Ongoing Work", "AVX-512"]
 ---
 
 ## Introduction
