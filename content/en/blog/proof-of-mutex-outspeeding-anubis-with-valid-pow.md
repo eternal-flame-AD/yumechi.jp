@@ -207,7 +207,7 @@ We can observe these properties which will influence our implementation:
 - All full-block rounds of a message can be precomputed.
 - If the message has a constant prefix of length $P$ bytes, then the first $\lfloor \frac{P}{4} \rfloor$ rounds can also be precomputed.
 - The first $k$ 32-bit words of the output is only dependent on feedforward terms $H_0, H_1, \cdots, H_{k-1}$, and _independent_ of $H_k$ and beyond.
-- Extending a message intra-block is cheap, extending a message inter-block is expensive.
+- Mutating a message intra-block is cheap, mutating a message inter-block is expensive.
 
 ### Brief Intro to SIMD and AVX-512
 
@@ -569,6 +569,8 @@ Improvement: Life quality-no magic constants to get wrong subtly.
 ## Benchmarks
 
 The full benchmark log and code is available in the appendix and code repository, here is a short summary.
+
+Benchmarks are ran on AMD Ryzen 9 7950X unless otherwise specified. Anubis is built using official Makefile rule with no special flags with difficulty set to 4 unless otherwise specified.
 
 I also appended a binary nonce benchmark since they do have a [WIP](https://github.com/TecharoHQ/anubis/pull/240) on that, but to my best knowledge it is not on release track yet nor deployed anywhere.
 
