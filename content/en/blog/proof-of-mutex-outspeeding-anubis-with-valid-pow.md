@@ -370,13 +370,13 @@ if met_target_test {
 }
 ```
 
-- `_mm512_unpacklo_epi32` "Unpack and interleave 32-bit intergers": so we put B at the least significant position and A at the most significant position (note little-endian, so low address is least significant).
+- `_mm512_unpacklo_epi32` "Unpack and interleave 32-bit intergers": so we put B at the least significant position and A at the most significant position (note little-endian, so low address is least significant). (Recall `B` is simply rolled from `A` in the second-to-last round, so it has much less latency to compute than `A`).
 - `met_target_test` gets lowered into a single `kortest k0, k1` ([`OR Masks and Set  Flags`](https://www.felixcloutier.com/x86/kortestw:kortestb:kortestq:kortestd)) instruction that sets `ZF` depending on if any of the mask bits are set, 1c on most modern CPUs and can be uop-fused into the Jcc after it.
 
 In assembly it looks like this:
 
 ```asm
-vpaddd zmm0, zmm3, zmm0   ; drail the SHA-2 pipeline
+vpaddd zmm0, zmm3, zmm0   ; drain the SHA-2 pipeline and add feedforward for A
 vmovdqu64 zmm3, zmmword ptr [rsp + 1728] ; load the comparison target
 vpaddd zmm0, zmm0, zmm2
 vpaddd zmm0, zmm0, zmm8
@@ -387,7 +387,7 @@ vpcmpltuq k1, zmm3, zmm2    ; issue comparison
 vpcmpltuq k0, zmm3, zmm0
 kortestb k0, k1
 jne .LBB108_10              ; branch if success
-vpbroadcastq zmm0, r13
+vpbroadcastq zmm0, r13      ; vectorized itoa() for 7 digits
 vpmuldq zmm0, zmm0, zmmword ptr [rbx]  ; divide by 1, 10, 100, ...
 vpxor xmm2, xmm2, xmm2
 cmp r13d, r12d  ; loop housekeeping when multiplication in progress
@@ -397,18 +397,18 @@ add rcx, 16
 mov qword ptr [rdi + 128], rcx
 vpsrlvq zmm0, zmm0, zmmword ptr [r14]
 vpandd zmm1, zmm0, zmmword ptr [rip + .LCPI108_61]
-vpmullq zmm1, zmm1, qword ptr [rip + .LCPI108_62]{1to8} ; multiply by 10 then align left
-valignq zmm1, zmm2, zmm1, 1
+vpmullq zmm1, zmm1, qword ptr [rip + .LCPI108_62]{1to8} ; multiply by 10
+valignq zmm1, zmm2, zmm1, 1  ; align by 1 pad with zero
 vmovdqa64 zmm2, zmmword ptr [rip + .Lanon.203dc3961393a7c6c675fa07b7bf696c.29]
 vpaddq zmm0, zmm1, zmm0   ; subtract to get the residuals
 vporq zmm0, zmm0, qword ptr [rip + .LCPI108_65]{1to8}  ; OR all digits by 0x30 and also insert the sentinel byte at an unused byte position
-vpermb zmm0, zmm2, zmm0   ; VBMI instant gather relevant digits
+vpermb zmm0, zmm2, zmm0   ; VBMI instant shuffle to 4321\x807654 order
 vmovq r9, xmm0
 cmp r13d, r12d
-jae .LBB108_2               ; 1e7 iterations passed, swap for a new set of lane prefixes
+jae .LBB108_2             ; 1e7 iterations passed, swap for a new set of lane prefixes
 mov r13d, ebp
 cmp ebp, r12d
-jbe .LBB108_7               ; loop back inner loop
+jbe .LBB108_7             ; loop back inner loop
 jmp .LBB108_2
 ```
 
