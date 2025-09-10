@@ -252,7 +252,7 @@ Additionally:
 - Check [Agner's instruction tables](https://www.agner.org/optimize/instruction_tables.pdf), these instructions are high latency (about 3x their throughput). Which means in a miner setting we should be multi-issuing them across multiple independent messages. This can be done simply by adding a const generic `NUM_MESSAGES` parameter to the kernel, then widening every register into an array of registers. Note that non AVX-512 systems only have 16 registers: so stop at 4 messages in parallel.
 - Implement a skip-rounds-by-4 and broadcast-message-schedule pattern as well.
 
-Unfortunately SHA-NI is pretty finnicky to work with as every instruction is high-latency and it is designed to be efficient when pipelined across very long messages, not repeated hash/reload cycles (also it is very awkward to "insert" nonces into XMM registers using only Haswell or older instructions). This can be seen on almost every hardware-assistedd OpenSSL benchmark output as well where the throughput is very low when message length is short. So most of my experiments concentrated on using a software AVX-512 kernel.
+Unfortunately SHA-NI is pretty finnicky to work with as every instruction is high-latency and it is designed to be efficient when pipelined across very long messages, not repeated hash/reload cycles (also it is very awkward to "insert" nonces into XMM registers using only Haswell or older instructions). This can be seen on almost every hardware-assisted OpenSSL benchmark output as well where the throughput is very low when message length is short. So most of my experiments concentrated on using a software AVX-512 kernel.
 
 ### Implementation Details
 
@@ -404,7 +404,7 @@ valignq zmm1, zmm2, zmm1, 1  ; align by 1 pad with zero
 vmovdqa64 zmm2, zmmword ptr [rip + .Lanon.203dc3961393a7c6c675fa07b7bf696c.29]
 vpaddq zmm0, zmm1, zmm0   ; subtract to get the residuals
 vporq zmm0, zmm0, qword ptr [rip + .LCPI108_65]{1to8}  ; OR all digits by 0x30 and also insert the sentinel byte at an unused byte position
-vpermb zmm0, zmm2, zmm0   ; VBMI instant shuffle to 4321\x807654 order
+vpermb zmm0, zmm2, zmm0   ; VBMI instant shuffle to 4321\x80765 order
 vmovq r9, xmm0
 cmp r13d, r12d
 jae .LBB108_2             ; 1e7 iterations passed, swap for a new set of lane prefixes
