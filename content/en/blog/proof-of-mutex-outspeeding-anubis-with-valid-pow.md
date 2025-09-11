@@ -16,6 +16,8 @@ TL;DR: With a single Ryzen 9 7950X, I pushed ~11.5k valid proofs/sec (~0.68–0.
 
 Anubis running on the same machine in browser using multiple workers (concurrent is not tunable) produces ~150 kH/s when we achieved ~1.5 GH/s on benchmark.
 
+You can [try this out](https://powbuster.yumechi.jp) on a public instance running on a $10/month VPS at a solid 80+ MH/s single-threaded.
+
 ### What is Anubis?
 
 Anubis is a bot-deterrent system that uses PoW (Proof of Work) with the intention of discouraging bots from accessing a website.
