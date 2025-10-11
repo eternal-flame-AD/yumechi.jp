@@ -1,7 +1,7 @@
 ---
 title: "A Critical Look at C2PA: DRM and AI"
 description: 
-date: 2025-05-04T18:04:12-05:00
+date: 2025-10-11T16:04:12-05:00
 image: 
 math: 
 license: 
@@ -130,9 +130,19 @@ What makes it harmful is a machine can be programmed to disregard a signal prese
 - over-compensate like from not trusted to distrust: "why are you pushing C2PA? I refuse to invest a cent into the ecosystem and I am cancelling my subscription" or
 - under-compensate like from not trusted to more trusted: "this articles doesn't sound right.. but it has C2PA from a reputable news agency so I guess it is more true than that article"
 
-#### Bank Fraud Example
+#### A Thought Experiment - What if the Public ARE Truth Seekers?
 
-To put it into a concrete example, a fraudster cashing a fake check usually produces excessive proof, like multiple forms of ID, a long story to explain to the clerk how they obtained the check, etc. Even if none of these assertions provide any real proof on the legitimacy of the check, a naive bank clerk is likely to reduce their suspicion. Similarly, a misinformation campaign can also use C2PA against itself, by providing a "legitimate" and "waterproof" attestation on the legitimacy of the asset, to hide the actual bias of the content. 
+Let's for the sake of argument agree with C2PA's premise of why a "nutritional label" of elements of a narrative is helpful for combating misinformation: the public is motivated to (and should, for their own benefit) go out of their way to vet the substance of a claim, and an integral provenance is important to assist in shaping a more accurate public opinion. 
+
+Let's play that role of a "truth seeker" and try "inspect tool" the provenance of the Content Authenticity Initiative's own claims and governance body. 
+
+> Oh boy, I nearly got fooled by "fake news"! I noticed your alleged "independent" "risk modeling" is not signed by any third party under no COI. That's a red flag that "independent" is dubious at best. 
+>
+> The provenance of your own governance is also highly questionable, the only non profit, WITNESS, is an organization who literally dichotomized their otherwise humanitarian mission and piggybacked in a hard-coded desire to a technological solution to a vaguely defined AI challenge in their otherwise emotionally charged "About us" statement.
+>
+> Thus, based on these verifiable provenance, I suspect your whole steering committee is financially motivated or emotionally indoctrinated to solutionism to "the AI problem" and yet they claim you have "independent risk modeling" for your social impact. However it does not appear like you published the provenance for the risk modeling itself. You failed to disclose what "tool" is used and failed to hold any third party firm accountable for this allegedly independent analysis. I reject your claim as a likely biased and self-serving initiative masquerading as a robustly justified solution purely for the public good (i.e. looks like misinformation).
+
+Would this narrative be accepted by the public and in turn shape their opinion? Probably not, given the still overwhelmingly positive public portrayal of the Content Authenticity Initiative. Thus either the public or the C2PA initiative themselves fail to uphold this "dedication to truth by transparency" ideal. If the former is true then the solution will not work, if the latter is true then the current governance is not qualified to earn public trust to deliver this solution. There lies the self contradiction.
 
 ## Authenticity and Fine Art
 
